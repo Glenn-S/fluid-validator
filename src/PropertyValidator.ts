@@ -1,337 +1,357 @@
 import { ValidationError } from './types';
 
-interface CommonPropertyValidator<T> {
-  isUndefined(message?: string): T;
-  isNull(message?: string): T;
-}
+type StringValidator<Key extends string, Context> = StringPropertyValidator<Key, Context> &
+  BasePropertyValidator<Key, string, Context>;
 
-export type PropertyValidator<K extends string, V> = 
-  V extends string | undefined
-    ? StringPropertyValidator<K> & CommonPropertyValidator<StringPropertyValidator<K>>
-  : V extends number | undefined
-    ? NumberPropertyValidator<K> & CommonPropertyValidator<NumberPropertyValidator<K>>
-  : V extends boolean | undefined
-    ? BooleanPropertyValidator<K> & CommonPropertyValidator<BooleanPropertyValidator<K>>
-  : V extends object | undefined
-    ? ObjectPropertyValidator<K, V> & CommonPropertyValidator<ObjectPropertyValidator<K, V>>
-  : object;
+type NumberValidator<Key extends string, Context> = NumberPropertyValidator<Key, Context> &
+  BasePropertyValidator<Key, number, Context>;
+
+type BooleanValidator<Key extends string, Context> = BooleanPropertyValidator<Key, Context> &
+  BasePropertyValidator<Key, boolean, Context>;
+
+type ObjectValidator<Key extends string, Value, Context> = ObjectPropertyValidator<Key, Value, Context> &
+  BasePropertyValidator<Key, Value, Context>
+
+type UnknownValidator<Key extends string, Context> = {};
+
+export type PropertyValidator<Key extends string, Value, Context> = 
+  Value extends string | undefined
+    ? StringValidator<Key, Context>
+  : Value extends number | undefined
+    ? NumberValidator<Key, Context>
+  : Value extends boolean | undefined
+    ? BooleanValidator<Key, Context>
+  : Value extends object | undefined
+    ? ObjectValidator<Key, Value, Context>
+  : UnknownValidator<Key, Context>;
 
 export class PropertyValidatorFactory {
-  public static getPropertyValidator<K extends string, V>(property: K, value: V): PropertyValidator<K, V> {
+  public static getPropertyValidator<K extends string, V, T>(
+    property: K,
+    value: V,
+    context: T
+  ): PropertyValidator<K, V, T> {
     switch (typeof value) {
       case 'string':
-        return new StringPropertyValidator(property, value as string) as PropertyValidator<K, V>;
+        return new StringPropertyValidator(property, value as string, context) as PropertyValidator<K, V, T>;
       case 'number':
-        return new NumberPropertyValidator(property, value as number) as PropertyValidator<K, V>;
+        return new NumberPropertyValidator(property, value as number, context) as PropertyValidator<K, V, T>;
       case 'boolean':
-        return new BooleanPropertyValidator(property, value as boolean) as PropertyValidator<K, V>;
+        return new BooleanPropertyValidator(property, value as boolean, context) as PropertyValidator<K, V, T>;
       case 'object':
-        return new ObjectPropertyValidator(property, value as V) as PropertyValidator<K, V>;
+        return new ObjectPropertyValidator(property, value as V, context) as PropertyValidator<K, V, T>;
       default:
         throw new Error();
     }
   }
 }
 
-export class CommonProperty {
-  protected validationErrors: ValidationError[];
-
-  constructor() {
-    this.validationErrors = [];
-  }
-
-  public getValidationErrors() {
-    return [...this.validationErrors];
-  }
+export interface CommonProperty {
+  getValidationErrors(): ValidationError[];
 }
 
-export class StringPropertyValidator<K extends string>
-  extends CommonProperty
-  implements CommonPropertyValidator<StringPropertyValidator<K>>
-{
-  private property: K;
-  private value: string;
+class BasePropertyValidator<PropKey extends string, Value, Context> {
+  protected prop: PropKey;
+  protected value: Value;
+  protected context: Context;
+  protected validationErrors: ValidationError[];
 
-  constructor(property: K, value: string) {
-    super();
-    this.property = property;
+  constructor(property: PropKey, value: Value, context: Context) {
+    this.prop = property;
     this.value = value;
+    this.context = context;
+    this.validationErrors = [];
   }
 
   public getValidationErrors(): ValidationError[] {
     return [...this.validationErrors];
   }
 
-  public maxLength(expected: number, message?: string): StringPropertyValidator<K> {
+  public isUndefined(message?: string): BasePropertyValidator<PropKey, Value, Context> {
+    if (this.value === undefined) {
+      this.validationErrors.push({
+        error: 'isUndefined',
+        property: this.prop,
+        value: 'undefined',
+        description: message,
+      });
+    }
+
+    return this;
+  }
+
+  public isNull(message?: string): BasePropertyValidator<PropKey, Value, Context> {
+    if (this.value === null) {
+      this.validationErrors.push({
+        error: 'isNull',
+        property: this.prop,
+        value: 'null',
+        description: message,
+      });
+    }
+
+    return this;
+  }
+
+  public custom(
+    customValidator: (value: Value, context: Context) => ValidationError | null,
+  ): BasePropertyValidator<PropKey, Value, Context> {
+    const validationError = customValidator(this.value, this.context);
+    if (validationError) {
+      this.validationErrors.push(validationError);
+    }
+
+    return this;
+  }
+}
+
+export class StringPropertyValidator<PropKey extends string, Context>
+  extends BasePropertyValidator<PropKey, string, Context>
+{
+  constructor(property: PropKey, value: string, context: Context) {
+    super(property, value, context);
+  }
+
+  public maxLength(expected: number, message?: string): StringPropertyValidator<PropKey, Context> {
     if (this.value.length >= expected) {
       this.validationErrors.push({
         error: 'maxLength',
-        property: this.property,
+        property: this.prop,
+        value: this.value,
         description: message,
       });
     }
     return this;
   }
 
-  public minLength(expected: number, message?: string): StringPropertyValidator<K> {
+  public minLength(expected: number, message?: string): StringPropertyValidator<PropKey, Context> {
     if (this.value.length <= expected) {
       this.validationErrors.push({
         error: 'minLength',
-        property: this.property,
+        property: this.prop,
+        value: this.value,
         description: message,
       });
     }
     return this;
   }
 
-  public isUndefined(message?: string): StringPropertyValidator<K> {
-    if (this.value === undefined) {
-      this.validationErrors.push({
-        error: 'isUndefined',
-        property: this.property,
-        description: message,
-      });
-    }
+  public isNull(message?: string | undefined): StringPropertyValidator<PropKey, Context> {
+    super.isNull(message);
     return this;
   }
 
-  public isNull(message?: string): StringPropertyValidator<K> {
-    if (this.value === null) {
-      this.validationErrors.push({
-        error: 'isNull',
-        property: this.property,
-        description: message,
-      });
-    }
+  public isUndefined(message?: string | undefined): StringPropertyValidator<PropKey, Context> {
+    super.isUndefined(message);
     return this;
   }
 
-  public custom(customValidator: () => ValidationError): StringPropertyValidator<K> {
+  public custom(
+    customValidator: (value: string, context: Context) => ValidationError | null
+  ): StringPropertyValidator<PropKey, Context> {
+    super.custom(customValidator);
     return this;
   }
 }
 
-export class NumberPropertyValidator<K extends string>
-  extends CommonProperty
-  implements CommonPropertyValidator<NumberPropertyValidator<K>>
+export class NumberPropertyValidator<PropKey extends string, Context>
+  extends BasePropertyValidator<PropKey, number, Context>
 {
-  private property: K;
-  private value: number;
-
-  constructor(property: K, value: number) {
-    super();
-    this.property = property;
-    this.value = value;
+  constructor(property: PropKey, value: number, context: Context) {
+    super(property, value, context);
   }
 
-  public getValidationErrors(): any[] {
-    return [...this.validationErrors];
-  }
-
-  public equal(expected: number, message?: string): NumberPropertyValidator<K> {
+  public equal(expected: number, message?: string): NumberPropertyValidator<PropKey, Context> {
     if (this.value !== expected) {
       this.validationErrors.push({
         error: 'equal',
-        property: this.property,
+        property: this.prop,
+        value: this.value.toString(),
         description: message,
       });
     }
     return this;
   }
 
-  public greaterThan(expected: number, message?: string): NumberPropertyValidator<K> {
+  public greaterThan(expected: number, message?: string): NumberPropertyValidator<PropKey, Context> {
     if (this.value <= expected) {
       this.validationErrors.push({
         error: 'greaterThan',
-        property: this.property,
+        property: this.prop,
+        value: this.value.toString(),
         description: message,
       });
     }
     return this;
   }
 
-  public greaterThanOrEqual(expected: number, message?: string): NumberPropertyValidator<K> {
+  public greaterThanOrEqual(expected: number, message?: string): NumberPropertyValidator<PropKey, Context> {
     if (this.value < expected) {
       this.validationErrors.push({
         error: 'greaterThanOrEqual',
-        property: this.property,
+        property: this.prop,
+        value: this.value.toString(),
         description: message,
       });
     }
     return this;
   }
 
-  public lessThan(expected: number, message?: string): NumberPropertyValidator<K> {
+  public lessThan(expected: number, message?: string): NumberPropertyValidator<PropKey, Context> {
     if (this.value >= expected) {
       this.validationErrors.push({
         error: 'lessThan',
-        property: this.property,
+        property: this.prop,
+        value: this.value.toString(),
         description: message,
       });
     }
     return this;
   }
 
-  public lessThanOrEqual(expected: number, message?: string): NumberPropertyValidator<K> {
+  public lessThanOrEqual(expected: number, message?: string): NumberPropertyValidator<PropKey, Context> {
     if (this.value > expected) {
       this.validationErrors.push({
         error: 'lessThanOrEqual',
-        property: this.property,
+        property: this.prop,
+        value: this.value.toString(),
         description: message,
       });
     }
     return this;
   }
 
-  public isUndefined(message?: string): NumberPropertyValidator<K> {
-    if (this.value === undefined) {
-      this.validationErrors.push({
-        error: 'isUndefined',
-        property: this.property,
-        description: message,
-      });
-    }
+  public isNull(message?: string | undefined): NumberPropertyValidator<PropKey, Context> {
+    super.isNull(message);
     return this;
   }
 
-  public isNull(message?: string): NumberPropertyValidator<K> {
-    if (this.value === null) {
-      this.validationErrors.push({
-        error: 'isNull',
-        property: this.property,
-        description: message,
-      });
-    }
+  public isUndefined(message?: string | undefined): NumberPropertyValidator<PropKey, Context> {
+    super.isUndefined(message);
     return this;
   }
 
-  public custom(customValidator: any): NumberPropertyValidator<K> {
+  public custom(
+    customValidator: (value: number, context: Context) => ValidationError | null
+  ): NumberPropertyValidator<PropKey, Context> {
+    super.custom(customValidator);
     return this;
   }
 }
 
-export class BooleanPropertyValidator<K extends string>
-  extends CommonProperty
-  implements CommonPropertyValidator<BooleanPropertyValidator<K>>
+export class BooleanPropertyValidator<PropKey extends string, Context>
+  extends BasePropertyValidator<PropKey, boolean, Context>
 {
-  private property: K;
-  private value: boolean;
-
-  constructor(property: K, value: boolean) {
-    super();
-    this.property = property;
-    this.value = value;
+  constructor(property: PropKey, value: boolean, context: Context) {
+    super(property, value, context);
   }
 
-  public getValidationErrors(): any[] {
-    return [...this.validationErrors];
-  }
-
-  public isTrue(message?: string) {
+  public isTrue(message?: string): BooleanPropertyValidator<PropKey, Context> {
     if (this.value === false) {
       this.validationErrors.push({
         error: 'isTrue',
-        property: this.property,
+        property: this.prop,
+        value: 'false',
         description: message,
       });
     }
     return this;
   }
 
-  public isFalse(message?: string) {
+  public isFalse(message?: string): BooleanPropertyValidator<PropKey, Context> {
     if (this.value === true) {
       this.validationErrors.push({
         error: 'isFalse',
-        property: this.property,
+        property: this.prop,
+        value: 'true',
         description: message,
       });
     }
     return this;
   }
 
-  public isUndefined(message?: string): BooleanPropertyValidator<K> {
-    if (this.value === undefined) {
-      this.validationErrors.push({
-        error: 'isUndefined',
-        property: this.property,
-        description: message,
-      });
-    }
+  public isNull(message?: string | undefined): BooleanPropertyValidator<PropKey, Context> {
+    super.isNull(message);
     return this;
   }
 
-  public isNull(message?: string): BooleanPropertyValidator<K> {
-    if (this.value === null) {
-      this.validationErrors.push({
-        error: 'isNull',
-        property: this.property,
-        description: message,
-      });
-    }
+  public isUndefined(message?: string | undefined): BooleanPropertyValidator<PropKey, Context> {
+    super.isUndefined(message);
     return this;
   }
 
-  public custom(customValidator: any): BooleanPropertyValidator<K> {
+  public custom(
+    customValidator: (value: boolean, context: Context) => ValidationError | null
+  ): BooleanPropertyValidator<PropKey, Context> {
+    super.custom(customValidator);
     return this;
   }
 }
 
-export class ObjectPropertyValidator<Key extends string, Value>
-  extends CommonProperty
-  implements CommonPropertyValidator<ObjectPropertyValidator<Key, Value>>
+export class ObjectPropertyValidator<PropKey extends string, Value, Context>
+  extends BasePropertyValidator<PropKey, Value, Context>
 {
-  private prop: Key;
-  private value: Value;
-
-  constructor(property: Key, value: Value) {
-    super();
-    this.prop = property;
-    this.value = value;
-  }
-
-  public getValidationErrors(): any[] {
-    return [...this.validationErrors];
+  constructor(property: PropKey, value: Value, context: Context) {
+    super(property, value, context);
   }
 
   public property<K extends keyof Value & string>(
     property: K,
-    fn: (prop: PropertyValidator<K, Value[K]>) => void,
-  ): ObjectPropertyValidator<Key, Value> {
-    const propertyValidator = PropertyValidatorFactory.getPropertyValidator(property, this.value[property]);
+    fn: (prop: PropertyValidator<K, Value[K], Context>) => void,
+  ): ObjectPropertyValidator<PropKey, Value, Context> {
+    const propertyValidator = PropertyValidatorFactory.getPropertyValidator(
+      property,
+      this.value[property],
+      this.context,
+    );
     fn(propertyValidator);
-    this.validationErrors = [
-      ...this.validationErrors,
-      ...(propertyValidator as CommonProperty).getValidationErrors(),
-    ];
+    this.validationErrors.push(...(propertyValidator as CommonProperty).getValidationErrors());
     return this;
   }
 
-  public isUndefined(message?: string): ObjectPropertyValidator<Key, Value> {
-    if (this.value === undefined) {
-      this.validationErrors.push({
-        error: 'isTrue',
-        property: this.prop,
-        description: message,
-      });
-    }
+  public isNull(message?: string | undefined): ObjectPropertyValidator<PropKey, Value, Context> {
+    super.isNull(message);
     return this;
   }
 
-  public isNull(message?: string): ObjectPropertyValidator<Key, Value> {
-    if (this.value === null) {
-      this.validationErrors.push({
-        error: 'isTrue',
-        property: this.prop,
-        description: message,
-      });
-    }
+  public isUndefined(message?: string | undefined): ObjectPropertyValidator<PropKey, Value, Context> {
+    super.isUndefined(message);
     return this;
   }
 
-  // public deepEquals() {
-
-  // }
+  public custom(
+    customValidator: (value: Value, context: Context) => ValidationError | null
+  ): ObjectPropertyValidator<PropKey, Value, Context> {
+    super.custom(customValidator);
+    return this;
+  }
 }
 
-// how to handle nested properties
-// how to handle custom validators
+export class ArrayPropertyValidator<PropKey extends string, Value, Context>
+extends BasePropertyValidator<PropKey, Value[], Context>
+{
+  constructor(property: PropKey, value: Value[], context: Context) {
+    super(property, value, context);
+  }
+
+  public isEmpty(message?: string): ArrayPropertyValidator<PropKey, Value, Context> {
+    if (this.value.length !== 0) {
+      this.validationErrors.push({
+        error: 'isEmpty',
+        property: this.prop,
+        value: JSON.stringify(this.value),
+        description: message,
+      });
+    }
+    return this;
+  }
+}
+
+// export class UnknownPropertyValidator<Key extends string, Value, T>
+//   extends CommonProperty<T>
+//   implements CommonPropertyValidator<UnknownPropertyValidator<Key, Value, T>>
+// {
+
+// }
+
+// arrays

@@ -6,5 +6,6 @@ export interface ValidationResult {
 export interface ValidationError {
   error: string;
   property: string;
+  value: string;
   description?: string;
 }

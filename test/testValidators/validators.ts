@@ -3,19 +3,22 @@ import { Validator } from '../../src/Validator';
 import { Test1 } from '../entities/Test1';
 
 export const test1Validator = (value: Test1): ValidationResult => {
-  const validationResult = new Validator<Test1>(value)
+  return new Validator<Test1>(value)
     .property('prop1', (prop1) => {
       prop1.maxLength(3);
     })
     .property('prop4', (prop4) => {
       prop4
-        .property('nestedProp1', (nestedProp2) => {
-          nestedProp2.maxLength(2)
-            .custom((context) => {
-              return {
-                error: '',
-                property: '',
-                description: '',
+        .property('nestedProp1', (nestedProp1) => {
+          nestedProp1.maxLength(2)
+            .custom((value) => {
+              if (true) {
+                return {
+                  error: 'custom',
+                  property: 'nestedProp1',
+                  value: value.toString(),
+                  description: 'some description',
+                }
               }
             });
         })
@@ -26,6 +29,4 @@ export const test1Validator = (value: Test1): ValidationResult => {
         });
     })
     .validate();
-
-  return validationResult;
 }

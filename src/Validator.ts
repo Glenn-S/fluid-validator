@@ -1,28 +1,33 @@
 import { CommonProperty, PropertyValidator, PropertyValidatorFactory } from './PropertyValidator';
-import { ValidationResult } from './types';
+import { ValidationError, ValidationResult } from './types';
 
 export class Validator<T> {
   private objectToValidate: T;
+  private validationErrors: ValidationError[];
 
   constructor(obj: T) {
     this.objectToValidate = obj;
+    this.validationErrors = [];
   }
 
   public property<K extends keyof T & string>(
     property: K,
-    fn: (prop: PropertyValidator<K, T[K]>) => void,
+    fn: (prop: PropertyValidator<K, T[K], T>) => void,
   ): Validator<T> {
-    const propertyValidator = PropertyValidatorFactory.getPropertyValidator(property, this.objectToValidate[property]);
+    const propertyValidator = PropertyValidatorFactory.getPropertyValidator(
+      property,
+      this.objectToValidate[property],
+      this.objectToValidate,
+    );
     fn(propertyValidator);
-    const errors = (propertyValidator as CommonProperty).getValidationErrors();
-    console.log(errors);
+    this.validationErrors = [...(propertyValidator as CommonProperty).getValidationErrors()];
     return this;
   }
 
   public validate(): ValidationResult {
     return {
-      isValid: true,
-      errors: [],
+      isValid: this.validationErrors.length === 0,
+      errors: this.validationErrors,
     };
   }
 }
