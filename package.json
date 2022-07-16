@@ -1,0 +1,19 @@
+{
+  "name": "validator",
+  "version": "1.0.0",
+  "description": "An object validator for handling entity validations",
+  "main": "index.ts",
+  "author": "Glenn Skelton",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^28.1.5",
+    "ts-node": "^10.9.1",
+    "tsc": "^2.0.4",
+    "typescript": "^4.7.4"
+  },
+  "scripts": {
+    "start": "ts-node index.ts",
+    "build": "tsc",
+    "test": "jest"
+  }
+}
