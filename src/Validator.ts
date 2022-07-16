@@ -1,19 +1,24 @@
-import { CommonProperty, PropertyValidator, PropertyValidatorFactory } from './PropertyValidator';
-import { ValidationError, ValidationResult } from './types';
+import {
+  CommonProperty,
+  PropertyValidator,
+  PropertyValidatorFactory,
+  ValidationError,
+  ValidationResult,
+} from './validators';
 
-export class Validator<T> {
-  private objectToValidate: T;
+export class Validator<Context> {
+  private objectToValidate: Context;
   private validationErrors: ValidationError[];
 
-  constructor(obj: T) {
+  constructor(obj: Context) {
     this.objectToValidate = obj;
     this.validationErrors = [];
   }
 
-  public property<K extends keyof T & string>(
-    property: K,
-    fn: (prop: PropertyValidator<K, T[K], T>) => void,
-  ): Validator<T> {
+  public property<Key extends keyof Context & string>(
+    property: Key,
+    fn: (prop: PropertyValidator<Key, Context[Key], Context>) => void,
+  ): Validator<Context> {
     const propertyValidator = PropertyValidatorFactory.getPropertyValidator(
       property,
       this.objectToValidate[property],
