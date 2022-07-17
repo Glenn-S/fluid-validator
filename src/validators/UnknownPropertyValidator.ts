@@ -22,7 +22,7 @@ export class UnknownPropertyValidator<PropKey extends string, Value, Context>
   }
 
   public custom(
-    customValidator: (value: Value, context: Context) => ValidationError | null
+    customValidator: (value: Value | undefined, context: Context) => ValidationError | null
   ): UnknownPropertyValidator<PropKey, Value, Context> {
     super.custom(customValidator);
     return this;

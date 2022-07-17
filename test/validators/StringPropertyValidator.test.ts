@@ -1,11 +1,17 @@
 describe('StringPropertyValidator', () => {
-  describe('property', () => {
+  describe('maxLength', () => {
     it('test1', () => {
 
     });
   });
 
-  describe('validate', () => {
+  describe('minLength', () => {
+    it('test2', () => {
+
+    });
+  });
+
+  describe('regex', () => {
     it('test2', () => {
 
     });

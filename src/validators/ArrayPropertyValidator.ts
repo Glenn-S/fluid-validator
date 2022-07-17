@@ -14,7 +14,11 @@ export class ArrayPropertyValidator<PropKey extends string, Value extends Array<
   }
 
   public isEmpty(message?: string): ArrayPropertyValidator<PropKey, Value, Context> {
-    console.log(this.value.length);
+    if (this.value === undefined || this.value === null) {
+      this.getInvalidValueError('isEmpty');
+      return this;
+    }
+
     if (this.value.length !== 0) {
       this.validationErrors.push({
         error: 'isEmpty',
@@ -27,6 +31,11 @@ export class ArrayPropertyValidator<PropKey extends string, Value extends Array<
   }
 
   public forEach(fn: (elem: PropertyValidator<PropKey, Infer<Value>, Context>) => void) {
+    if (this.value === undefined || this.value === null) {
+      this.getInvalidValueError('forEach');
+      return this;
+    }
+
     this.value.forEach((val) => {
       const propertyValidator = PropertyValidatorFactory.getPropertyValidator(
         this.prop,

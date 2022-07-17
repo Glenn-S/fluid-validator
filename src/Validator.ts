@@ -29,7 +29,10 @@ export class Validator<Context> {
     return this;
   }
 
-  public validate(): ValidationResult {
+  public validate(throwOnError: boolean = false): ValidationResult {
+    if (this.validationErrors.length > 0 && throwOnError) {
+      throw new Error(JSON.stringify(this.validationErrors));
+    }
     return {
       isValid: this.validationErrors.length === 0,
       errors: this.validationErrors,

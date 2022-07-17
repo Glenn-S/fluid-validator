@@ -12,6 +12,11 @@ export class StringPropertyValidator<PropKey extends string, Context>
   }
 
   public maxLength(expected: number, message?: string): StringPropertyValidator<PropKey, Context> {
+    if (this.value === undefined || this.value === null) {
+      this.getInvalidValueError('maxLength');
+      return this;
+    }
+    
     if (this.value.length >= expected) {
       this.validationErrors.push({
         error: 'maxLength',
@@ -24,6 +29,11 @@ export class StringPropertyValidator<PropKey extends string, Context>
   }
 
   public minLength(expected: number, message?: string): StringPropertyValidator<PropKey, Context> {
+    if (this.value === undefined || this.value === null) {
+      this.getInvalidValueError('minLength');
+      return this;
+    }
+    
     if (this.value.length <= expected) {
       this.validationErrors.push({
         error: 'minLength',
@@ -36,6 +46,11 @@ export class StringPropertyValidator<PropKey extends string, Context>
   }
 
   public regex(expected: RegExp, message?: string) : StringPropertyValidator<PropKey, Context> {
+    if (this.value === undefined || this.value === null) {
+      this.getInvalidValueError('regex');
+      return this;
+    }
+    
     if (expected.test(this.value)) {
       this.validationErrors.push({
         error: 'regex',
@@ -58,7 +73,7 @@ export class StringPropertyValidator<PropKey extends string, Context>
   }
 
   public custom(
-    customValidator: (value: string, context: Context) => ValidationError | null
+    customValidator: (value: string | undefined, context: Context) => ValidationError | null
   ): StringPropertyValidator<PropKey, Context> {
     super.custom(customValidator);
     return this;

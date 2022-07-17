@@ -16,6 +16,11 @@ export class ObjectPropertyValidator<PropKey extends string, Value, Context>
     property: K,
     fn: (prop: PropertyValidator<K, Value[K], Context>) => void,
   ): ObjectPropertyValidator<PropKey, Value, Context> {
+    if (this.value === undefined || this.value === null) {
+      this.getInvalidValueError('property');
+      return this;
+    }
+
     const propertyValidator = PropertyValidatorFactory.getPropertyValidator(
       property,
       this.value[property],
@@ -37,7 +42,7 @@ export class ObjectPropertyValidator<PropKey extends string, Value, Context>
   }
 
   public custom(
-    customValidator: (value: Value, context: Context) => ValidationError | null
+    customValidator: (value: Value | undefined, context: Context) => ValidationError | null
   ): ObjectPropertyValidator<PropKey, Value, Context> {
     super.custom(customValidator);
     return this;

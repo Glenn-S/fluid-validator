@@ -48,7 +48,7 @@ export class PropertyValidatorFactory {
           ) as PropertyValidator<PropKey, Value, Context>;
         }
       default:
-        return new UnknownPropertyValidator<PropKey, Value, Context>(
+        return new UnknownPropertyValidator(
           property,
           value as Value,
           context,

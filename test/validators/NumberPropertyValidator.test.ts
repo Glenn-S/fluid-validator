@@ -1,11 +1,29 @@
 describe('NumberPropertyValidator', () => {
-  describe('property', () => {
+  describe('equal', () => {
     it('test1', () => {
 
     });
   });
 
-  describe('validate', () => {
+  describe('greaterThan', () => {
+    it('test2', () => {
+
+    });
+  });
+
+  describe('greaterThanOrEqual', () => {
+    it('test2', () => {
+
+    });
+  });
+
+  describe('lessThan', () => {
+    it('test2', () => {
+
+    });
+  });
+
+  describe('lessThanOrEqual', () => {
     it('test2', () => {
 
     });

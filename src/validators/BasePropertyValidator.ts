@@ -17,13 +17,37 @@ export class BasePropertyValidator<PropKey extends string, Value, Context> {
     return [...this.validationErrors];
   }
 
-  protected isUndefined(message?: string): BasePropertyValidator<PropKey, Value, Context> {
+  protected getInvalidValueError(error: string): boolean {
+    if (this.value === null) {
+      this.validationErrors.push({
+        error,
+        property: this.prop,
+        value: 'null',
+        description: 'the value was null when it should not have been',
+      });
+      return false;
+    }
+
     if (this.value === undefined) {
+      this.validationErrors.push({
+        error,
+        property: this.prop,
+        value: 'undefined',
+        description: 'the value was undefined when it should not have been',
+      });
+      return false;
+    }
+
+    return true;
+  }
+
+  protected isUndefined(message?: string): BasePropertyValidator<PropKey, Value, Context> {
+    if (this.value !== undefined) {
       this.validationErrors.push({
         error: 'isUndefined',
         property: this.prop,
-        value: 'undefined',
-        description: message,
+        value: JSON.stringify(this.value),
+        description: message ?? 'value should have been undefined',
       });
     }
 
@@ -31,12 +55,12 @@ export class BasePropertyValidator<PropKey extends string, Value, Context> {
   }
 
   protected isNull(message?: string): BasePropertyValidator<PropKey, Value, Context> {
-    if (this.value === null) {
+    if (this.value !== null) {
       this.validationErrors.push({
         error: 'isNull',
         property: this.prop,
-        value: 'null',
-        description: message,
+        value: JSON.stringify(this.value),
+        description: message ?? 'value should have been null',
       });
     }
 
@@ -44,7 +68,7 @@ export class BasePropertyValidator<PropKey extends string, Value, Context> {
   }
 
   protected custom(
-    customValidator: (value: Value, context: Context) => ValidationError | null,
+    customValidator: (value: Value | undefined, context: Context) => ValidationError | null,
   ): BasePropertyValidator<PropKey, Value, Context> {
     const validationError = customValidator(this.value, this.context);
     if (validationError) {

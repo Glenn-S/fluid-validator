@@ -12,11 +12,16 @@ export class NumberPropertyValidator<PropKey extends string, Context>
   }
 
   public equal(expected: number, message?: string): NumberPropertyValidator<PropKey, Context> {
+    if (this.value === undefined || this.value === null) {
+      this.getInvalidValueError('equal');
+      return this;
+    }
+
     if (this.value !== expected) {
       this.validationErrors.push({
         error: 'equal',
         property: this.prop,
-        value: this.value.toString(),
+        value: this.value?.toString(),
         description: message,
       });
     }
@@ -24,6 +29,11 @@ export class NumberPropertyValidator<PropKey extends string, Context>
   }
 
   public greaterThan(expected: number, message?: string): NumberPropertyValidator<PropKey, Context> {
+    if (this.value === undefined || this.value === null) {
+      this.getInvalidValueError('greaterThan');
+      return this;
+    }
+    
     if (this.value <= expected) {
       this.validationErrors.push({
         error: 'greaterThan',
@@ -36,6 +46,11 @@ export class NumberPropertyValidator<PropKey extends string, Context>
   }
 
   public greaterThanOrEqual(expected: number, message?: string): NumberPropertyValidator<PropKey, Context> {
+    if (this.value === undefined || this.value === null) {
+      this.getInvalidValueError('greatrerThanOrEqual');
+      return this;
+    }
+    
     if (this.value < expected) {
       this.validationErrors.push({
         error: 'greaterThanOrEqual',
@@ -48,6 +63,11 @@ export class NumberPropertyValidator<PropKey extends string, Context>
   }
 
   public lessThan(expected: number, message?: string): NumberPropertyValidator<PropKey, Context> {
+    if (this.value === undefined || this.value === null) {
+      this.getInvalidValueError('lessThan');
+      return this;
+    }
+    
     if (this.value >= expected) {
       this.validationErrors.push({
         error: 'lessThan',
@@ -60,6 +80,11 @@ export class NumberPropertyValidator<PropKey extends string, Context>
   }
 
   public lessThanOrEqual(expected: number, message?: string): NumberPropertyValidator<PropKey, Context> {
+    if (this.value === undefined || this.value === null) {
+      this.getInvalidValueError('lessThanOrEqual');
+      return this;
+    }
+    
     if (this.value > expected) {
       this.validationErrors.push({
         error: 'lessThanOrEqual',
@@ -82,7 +107,7 @@ export class NumberPropertyValidator<PropKey extends string, Context>
   }
 
   public custom(
-    customValidator: (value: number, context: Context) => ValidationError | null
+    customValidator: (value: number | undefined, context: Context) => ValidationError | null
   ): NumberPropertyValidator<PropKey, Context> {
     super.custom(customValidator);
     return this;

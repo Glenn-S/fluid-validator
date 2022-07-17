@@ -12,24 +12,34 @@ export class BooleanPropertyValidator<PropKey extends string, Context>
   }
 
   public isTrue(message?: string): BooleanPropertyValidator<PropKey, Context> {
+    if (this.value === undefined || this.value === null) {
+      this.getInvalidValueError('isTrue');
+      return this;
+    }
+    
     if (this.value === false) {
       this.validationErrors.push({
         error: 'isTrue',
         property: this.prop,
         value: 'false',
-        description: message,
+        description: message ?? 'value should have been true',
       });
     }
     return this;
   }
 
   public isFalse(message?: string): BooleanPropertyValidator<PropKey, Context> {
+    if (this.value === undefined || this.value === null) {
+      this.getInvalidValueError('isFalse');
+      return this;
+    }
+
     if (this.value === true) {
       this.validationErrors.push({
         error: 'isFalse',
         property: this.prop,
         value: 'true',
-        description: message,
+        description: message ?? 'value should have been false',
       });
     }
     return this;
@@ -46,7 +56,7 @@ export class BooleanPropertyValidator<PropKey extends string, Context>
   }
 
   public custom(
-    customValidator: (value: boolean, context: Context) => ValidationError | null
+    customValidator: (value: boolean | undefined, context: Context) => ValidationError | null
   ): BooleanPropertyValidator<PropKey, Context> {
     super.custom(customValidator);
     return this;
