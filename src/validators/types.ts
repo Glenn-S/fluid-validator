@@ -3,6 +3,7 @@ import { BooleanValidator } from './BooleanPropertyValidator';
 import { NumberValidator } from './NumberPropertyValidator';
 import { ObjectValidator } from './ObjectPropertyValidator';
 import { StringValidator } from './StringPropertyValidator';
+import { UnknownValidator } from './UnknownPropertyValidator';
 
 export interface ValidationResult {
   isValid: boolean;
@@ -20,7 +21,7 @@ export interface CommonProperty {
   getValidationErrors(): ValidationError[];
 }
 
-type UnknownValidator<Key extends string, Context> = {};
+export type Infer<ArrType> = ArrType extends Array<infer Element> ? Element : unknown;
 
 export type PropertyValidator<Key extends string, Value, Context> = 
   Value extends string | undefined
@@ -29,8 +30,8 @@ export type PropertyValidator<Key extends string, Value, Context> =
     ? NumberValidator<Key, Context>
   : Value extends boolean | undefined
     ? BooleanValidator<Key, Context>
+  : Value extends Array<infer ElemType> | undefined
+    ? ArrayValidator<Key, Array<ElemType>, Context>
   : Value extends object | undefined
     ? ObjectValidator<Key, Value, Context>
-  : Value extends any[] | undefined
-    ? ArrayValidator<Key, Context>
-  : UnknownValidator<Key, Context>;
+  : UnknownValidator<Key, Value, Context>;

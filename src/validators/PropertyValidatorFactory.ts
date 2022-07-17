@@ -4,6 +4,9 @@ import { BooleanPropertyValidator } from './BooleanPropertyValidator';
 import { NumberPropertyValidator } from './NumberPropertyValidator';
 import { ObjectPropertyValidator } from './ObjectPropertyValidator';
 import { StringPropertyValidator } from './StringPropertyValidator';
+import { UnknownPropertyValidator, UnknownValidator } from './UnknownPropertyValidator';
+
+type ArrayElem<ArrType> = ArrType extends (infer ElementType) ? ElementType : unknown;
 
 export class PropertyValidatorFactory {
   public static getPropertyValidator<PropKey extends string, Value, Context>(
@@ -31,15 +34,25 @@ export class PropertyValidatorFactory {
           context,
         ) as PropertyValidator<PropKey, Value, Context>;
       case 'object':
-        return new ObjectPropertyValidator(
+        if (Array.isArray(value)) {
+          return new ArrayPropertyValidator(
+            property,
+            value as ArrayElem<typeof value>,
+            context,
+          ) as PropertyValidator<PropKey, Value, Context>;
+        } else {
+          return new ObjectPropertyValidator(
+            property,
+            value as Value,
+            context,
+          ) as PropertyValidator<PropKey, Value, Context>;
+        }
+      default:
+        return new UnknownPropertyValidator<PropKey, Value, Context>(
           property,
           value as Value,
           context,
         ) as PropertyValidator<PropKey, Value, Context>;
-      // case determine how to tell something is an array
-        // return new ArrayPropertyValidator(property, value as any[], context) as PropertyValidator<K, V, T>;
-      default:
-        throw new Error();
     }
   }
 }

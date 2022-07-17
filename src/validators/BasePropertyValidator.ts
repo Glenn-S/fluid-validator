@@ -2,7 +2,7 @@ import { ValidationError } from './types';
 
 export class BasePropertyValidator<PropKey extends string, Value, Context> {
   protected prop: PropKey;
-  protected value: Value;
+  public readonly value: Value;
   protected context: Context;
   protected validationErrors: ValidationError[];
 

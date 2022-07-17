@@ -35,6 +35,18 @@ export class StringPropertyValidator<PropKey extends string, Context>
     return this;
   }
 
+  public regex(expected: RegExp, message?: string) : StringPropertyValidator<PropKey, Context> {
+    if (expected.test(this.value)) {
+      this.validationErrors.push({
+        error: 'regex',
+        property: this.prop,
+        value: this.value,
+        description: message,
+      });
+    }
+    return this;
+  }
+
   public isNull(message?: string | undefined): StringPropertyValidator<PropKey, Context> {
     super.isNull(message);
     return this;
