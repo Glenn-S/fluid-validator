@@ -22,7 +22,7 @@ export class NumberPropertyValidator<PropKey extends string, Context>
         error: 'equal',
         property: this.prop,
         value: this.value?.toString(),
-        description: message,
+        description: message ?? `value should have been '${expected}'`,
       });
     }
     return this;
@@ -39,7 +39,7 @@ export class NumberPropertyValidator<PropKey extends string, Context>
         error: 'greaterThan',
         property: this.prop,
         value: this.value.toString(),
-        description: message,
+        description: message ?? `value should have been greater than '${expected}'`,
       });
     }
     return this;
@@ -47,7 +47,7 @@ export class NumberPropertyValidator<PropKey extends string, Context>
 
   public greaterThanOrEqual(expected: number, message?: string): NumberPropertyValidator<PropKey, Context> {
     if (this.value === undefined || this.value === null) {
-      this.getInvalidValueError('greatrerThanOrEqual');
+      this.getInvalidValueError('greaterThanOrEqual');
       return this;
     }
     
@@ -56,7 +56,7 @@ export class NumberPropertyValidator<PropKey extends string, Context>
         error: 'greaterThanOrEqual',
         property: this.prop,
         value: this.value.toString(),
-        description: message,
+        description: message ?? `value should have been greater than or equal to '${expected}'`,
       });
     }
     return this;
@@ -73,7 +73,7 @@ export class NumberPropertyValidator<PropKey extends string, Context>
         error: 'lessThan',
         property: this.prop,
         value: this.value.toString(),
-        description: message,
+        description: message ?? `value should have been less than '${expected}'`,
       });
     }
     return this;
@@ -90,7 +90,7 @@ export class NumberPropertyValidator<PropKey extends string, Context>
         error: 'lessThanOrEqual',
         property: this.prop,
         value: this.value.toString(),
-        description: message,
+        description: message ?? `value should have been less than or equal to '${expected}'`,
       });
     }
     return this;

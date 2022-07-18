@@ -27,7 +27,11 @@ export class ObjectPropertyValidator<PropKey extends string, Value, Context>
       this.context,
     );
     fn(propertyValidator);
-    this.validationErrors.push(...(propertyValidator as CommonProperty).getValidationErrors());
+    const innerValidationErrors = [...(propertyValidator as CommonProperty).getValidationErrors()];
+    innerValidationErrors.forEach((innerError) => {
+      innerError.property = `${this.prop}.${innerError.property}`;
+    });
+    this.validationErrors.push(...innerValidationErrors);
     return this;
   }
 

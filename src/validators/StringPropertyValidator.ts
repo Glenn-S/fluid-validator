@@ -17,12 +17,12 @@ export class StringPropertyValidator<PropKey extends string, Context>
       return this;
     }
     
-    if (this.value.length >= expected) {
+    if (this.value.length > expected) {
       this.validationErrors.push({
         error: 'maxLength',
         property: this.prop,
         value: this.value,
-        description: message,
+        description: message ?? `value should have been no more than '${expected}' characters`,
       });
     }
     return this;
@@ -34,12 +34,12 @@ export class StringPropertyValidator<PropKey extends string, Context>
       return this;
     }
     
-    if (this.value.length <= expected) {
+    if (this.value.length < expected) {
       this.validationErrors.push({
         error: 'minLength',
         property: this.prop,
         value: this.value,
-        description: message,
+        description: message ?? `value should have been no less than '${expected}' characters`,
       });
     }
     return this;
@@ -51,12 +51,12 @@ export class StringPropertyValidator<PropKey extends string, Context>
       return this;
     }
     
-    if (expected.test(this.value)) {
+    if (!expected.test(this.value)) {
       this.validationErrors.push({
         error: 'regex',
         property: this.prop,
         value: this.value,
-        description: message,
+        description: message ?? 'the value provided did not match the regular expression',
       });
     }
     return this;
