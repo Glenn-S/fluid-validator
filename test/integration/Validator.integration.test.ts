@@ -1,4 +1,4 @@
-import { Validator } from '../..';
+import { Validator } from '../../src/Validator';
 
 describe('Validator', () => {
   interface TestInterface {

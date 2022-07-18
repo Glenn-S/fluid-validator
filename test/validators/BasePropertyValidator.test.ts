@@ -1,4 +1,4 @@
-import { ValidationError } from '../..';
+import { ValidationError } from '../../src/validators';
 import {BasePropertyValidator} from '../../src/validators/BasePropertyValidator';
 
 describe('BasePropertyValidator', () => {
