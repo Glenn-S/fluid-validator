@@ -23,15 +23,14 @@ export interface CommonProperty {
 
 export type Infer<ArrType> = ArrType extends (infer Element)[] ? Element : unknown;
 
-export type PropertyValidator<Key extends string, Value, Context> = 
-  Value extends string | undefined
-    ? StringValidator<Key, Context>
+export type PropertyValidator<Key extends string, Value, Context> = Value extends string | undefined
+  ? StringValidator<Key, Context>
   : Value extends number | undefined
-    ? NumberValidator<Key, Context>
+  ? NumberValidator<Key, Context>
   : Value extends boolean | undefined
-    ? BooleanValidator<Key, Context>
+  ? BooleanValidator<Key, Context>
   : Value extends (infer ElemType)[] | undefined
-    ? ArrayValidator<Key, ElemType, ElemType[], Context>
+  ? ArrayValidator<Key, ElemType, ElemType[], Context>
   : Value extends object | undefined
-    ? ObjectValidator<Key, Value, Context>
+  ? ObjectValidator<Key, Value, Context>
   : UnknownValidator<Key, Value, Context>;

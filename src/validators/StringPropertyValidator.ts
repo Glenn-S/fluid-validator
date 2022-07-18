@@ -4,9 +4,11 @@ import { BasePropertyValidator } from './BasePropertyValidator';
 export type StringValidator<Key extends string, Context> = StringPropertyValidator<Key, Context> &
   BasePropertyValidator<Key, string, Context>;
 
-export class StringPropertyValidator<PropKey extends string, Context>
-  extends BasePropertyValidator<PropKey, string, Context>
-{
+export class StringPropertyValidator<PropKey extends string, Context> extends BasePropertyValidator<
+  PropKey,
+  string,
+  Context
+> {
   constructor(property: PropKey, value: string, context: Context) {
     super(property, value, context);
   }
@@ -16,7 +18,7 @@ export class StringPropertyValidator<PropKey extends string, Context>
       this.getInvalidValueError('maxLength');
       return this;
     }
-    
+
     if (this.value.length > expected) {
       this.validationErrors.push({
         error: 'maxLength',
@@ -33,7 +35,7 @@ export class StringPropertyValidator<PropKey extends string, Context>
       this.getInvalidValueError('minLength');
       return this;
     }
-    
+
     if (this.value.length < expected) {
       this.validationErrors.push({
         error: 'minLength',
@@ -50,7 +52,7 @@ export class StringPropertyValidator<PropKey extends string, Context>
       this.getInvalidValueError('regex');
       return this;
     }
-    
+
     if (!expected.test(this.value)) {
       this.validationErrors.push({
         error: 'regex',

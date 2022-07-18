@@ -4,7 +4,7 @@ interface TestInterface {
   prop1: string;
   prop2: {
     innerProp: string;
-  }
+  };
 }
 
 describe('ObjectPropertyValidator', () => {
@@ -12,8 +12,8 @@ describe('ObjectPropertyValidator', () => {
     const testObject: TestInterface = {
       prop1: 'abcd',
       prop2: {
-        innerProp: 'inner'
-      }
+        innerProp: 'inner',
+      },
     };
 
     it('null value should generate invalid value validation error', () => {
@@ -23,7 +23,7 @@ describe('ObjectPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('property');
       expect(property).toBe('prop');
       expect(value).toBe('null');
@@ -31,13 +31,17 @@ describe('ObjectPropertyValidator', () => {
     });
 
     it('undefined value should generate invalid value validation error', () => {
-      const validator = new ObjectPropertyValidator('prop', undefined as unknown as TestInterface, {});
+      const validator = new ObjectPropertyValidator(
+        'prop',
+        undefined as unknown as TestInterface,
+        {},
+      );
       validator.property('prop1', (prop1) => prop1.maxLength(3));
 
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('property');
       expect(property).toBe('prop');
       expect(value).toBe('undefined');
@@ -60,11 +64,11 @@ describe('ObjectPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('maxLength');
       expect(property).toBe('prop.prop1');
       expect(value).toBe('abcd');
-      expect(description).toBe('value should have been no more than \'3\' characters');
+      expect(description).toBe("value should have been no more than '3' characters");
     });
 
     it('invalid nested property validation should return validation error', () => {
@@ -76,11 +80,11 @@ describe('ObjectPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('maxLength');
       expect(property).toBe('prop.prop2.innerProp');
       expect(value).toBe('inner');
-      expect(description).toBe('value should have been no more than \'3\' characters');
+      expect(description).toBe("value should have been no more than '3' characters");
     });
   });
 });

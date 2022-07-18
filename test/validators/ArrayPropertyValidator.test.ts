@@ -9,7 +9,7 @@ describe('ArrayPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('isEmpty');
       expect(property).toBe('prop');
       expect(value).toBe('null');
@@ -23,7 +23,7 @@ describe('ArrayPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('isEmpty');
       expect(property).toBe('prop');
       expect(value).toBe('undefined');
@@ -46,10 +46,10 @@ describe('ArrayPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('isEmpty');
       expect(property).toBe('prop');
-      expect(value).toBe('[\"abc\"]');
+      expect(value).toBe('["abc"]');
       expect(description).toBe('array should have been empty');
     });
   });
@@ -62,7 +62,7 @@ describe('ArrayPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('forEach');
       expect(property).toBe('prop');
       expect(value).toBe('null');
@@ -76,7 +76,7 @@ describe('ArrayPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('forEach');
       expect(property).toBe('prop');
       expect(value).toBe('undefined');
@@ -99,10 +99,10 @@ describe('ArrayPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('forEach');
       expect(property).toBe('prop');
-      expect(value).toBe('[\"ab\",\"bcd\",\"mt\"]');
+      expect(value).toBe('["ab","bcd","mt"]');
       expect(description).toBe('one or more values did not pass the array element validation');
     });
 

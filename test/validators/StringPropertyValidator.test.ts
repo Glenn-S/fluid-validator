@@ -9,7 +9,7 @@ describe('StringPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('maxLength');
       expect(property).toBe('prop');
       expect(value).toBe('null');
@@ -23,7 +23,7 @@ describe('StringPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('maxLength');
       expect(property).toBe('prop');
       expect(value).toBe('undefined');
@@ -55,11 +55,11 @@ describe('StringPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('maxLength');
       expect(property).toBe('prop');
       expect(value).toBe('abc');
-      expect(description).toBe('value should have been no more than \'2\' characters');
+      expect(description).toBe("value should have been no more than '2' characters");
     });
   });
 
@@ -71,7 +71,7 @@ describe('StringPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('minLength');
       expect(property).toBe('prop');
       expect(value).toBe('null');
@@ -85,7 +85,7 @@ describe('StringPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('minLength');
       expect(property).toBe('prop');
       expect(value).toBe('undefined');
@@ -117,11 +117,11 @@ describe('StringPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('minLength');
       expect(property).toBe('prop');
       expect(value).toBe('abc');
-      expect(description).toBe('value should have been no less than \'4\' characters');
+      expect(description).toBe("value should have been no less than '4' characters");
     });
   });
 
@@ -133,7 +133,7 @@ describe('StringPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('regex');
       expect(property).toBe('prop');
       expect(value).toBe('null');
@@ -147,7 +147,7 @@ describe('StringPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('regex');
       expect(property).toBe('prop');
       expect(value).toBe('undefined');
@@ -170,7 +170,7 @@ describe('StringPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('regex');
       expect(property).toBe('prop');
       expect(value).toBe('abcabcabc');

@@ -4,7 +4,7 @@ import { BooleanPropertyValidator } from './BooleanPropertyValidator';
 import { NumberPropertyValidator } from './NumberPropertyValidator';
 import { ObjectPropertyValidator } from './ObjectPropertyValidator';
 import { StringPropertyValidator } from './StringPropertyValidator';
-import { UnknownPropertyValidator, UnknownValidator } from './UnknownPropertyValidator';
+import { UnknownPropertyValidator } from './UnknownPropertyValidator';
 
 type ArrayElem<ArrType> = ArrType extends infer ElementType ? ElementType : unknown;
 

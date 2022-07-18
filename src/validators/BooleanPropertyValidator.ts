@@ -4,9 +4,10 @@ import { BasePropertyValidator } from './BasePropertyValidator';
 export type BooleanValidator<Key extends string, Context> = BooleanPropertyValidator<Key, Context> &
   BasePropertyValidator<Key, boolean, Context>;
 
-export class BooleanPropertyValidator<PropKey extends string, Context>
-  extends BasePropertyValidator<PropKey, boolean, Context>
-{
+export class BooleanPropertyValidator<
+  PropKey extends string,
+  Context,
+> extends BasePropertyValidator<PropKey, boolean, Context> {
   constructor(property: PropKey, value: boolean, context: Context) {
     super(property, value, context);
   }
@@ -16,7 +17,7 @@ export class BooleanPropertyValidator<PropKey extends string, Context>
       this.getInvalidValueError('isTrue');
       return this;
     }
-    
+
     if (this.value === false) {
       this.validationErrors.push({
         error: 'isTrue',

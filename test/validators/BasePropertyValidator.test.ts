@@ -1,5 +1,5 @@
 import { ValidationError } from '../../src/validators';
-import {BasePropertyValidator} from '../../src/validators/BasePropertyValidator';
+import { BasePropertyValidator } from '../../src/validators/BasePropertyValidator';
 
 describe('BasePropertyValidator', () => {
   describe('isNull', () => {
@@ -20,7 +20,7 @@ describe('BasePropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('isNull');
       expect(property).toBe('prop');
       expect(value).toBe('false');
@@ -46,7 +46,7 @@ describe('BasePropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('isUndefined');
       expect(property).toBe('prop');
       expect(value).toBe('true');
@@ -58,13 +58,14 @@ describe('BasePropertyValidator', () => {
     it('valid value should not return validation error', () => {
       const validator = new TestBasePropertyValidator('prop', false, {});
       validator.custom((value) => {
-        return value === true ?
-          {
-            error: 'custom',
-            property: 'prop',
-            value: 'false',
-            description: '',
-          } : null;
+        return value === true
+          ? {
+              error: 'custom',
+              property: 'prop',
+              value: 'false',
+              description: '',
+            }
+          : null;
       });
 
       const result = validator.getValidationErrors();
@@ -75,19 +76,20 @@ describe('BasePropertyValidator', () => {
     it('invalid value should return validation error', () => {
       const validator = new TestBasePropertyValidator('prop', false, {});
       validator.custom((value) => {
-        return value !== true ?
-          {
-            error: 'custom',
-            property: 'prop',
-            value: 'false',
-            description: '',
-          } : null;
+        return value !== true
+          ? {
+              error: 'custom',
+              property: 'prop',
+              value: 'false',
+              description: '',
+            }
+          : null;
       });
 
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('custom');
       expect(property).toBe('prop');
       expect(value).toBe('false');
@@ -96,9 +98,11 @@ describe('BasePropertyValidator', () => {
   });
 });
 
-class TestBasePropertyValidator<PropKey extends string, Context>
-  extends BasePropertyValidator<PropKey, boolean, Context>
-{
+class TestBasePropertyValidator<PropKey extends string, Context> extends BasePropertyValidator<
+  PropKey,
+  boolean,
+  Context
+> {
   constructor(property: PropKey, value: boolean, context: Context) {
     super(property, value, context);
   }
@@ -114,7 +118,7 @@ class TestBasePropertyValidator<PropKey extends string, Context>
   }
 
   public custom(
-    customValidator: (value: boolean | undefined, context: Context) => ValidationError | null
+    customValidator: (value: boolean | undefined, context: Context) => ValidationError | null,
   ): TestBasePropertyValidator<PropKey, Context> {
     super.custom(customValidator);
     return this;

@@ -2,13 +2,20 @@ import { BasePropertyValidator } from './BasePropertyValidator';
 import { PropertyValidatorFactory } from './PropertyValidatorFactory';
 import { CommonProperty, Infer, PropertyValidator, ValidationError } from './types';
 
-export type ArrayValidator<Key extends string, ElemType, Value extends ElemType[], Context> = 
-  ArrayPropertyValidator<Key, ElemType, Value, Context> &
+export type ArrayValidator<
+  Key extends string,
+  ElemType,
+  Value extends ElemType[],
+  Context,
+> = ArrayPropertyValidator<Key, ElemType, Value, Context> &
   BasePropertyValidator<Key, Value, Context>;
 
-export class ArrayPropertyValidator<PropKey extends string, ElemType, Value extends ElemType[], Context>
-  extends BasePropertyValidator<PropKey, Value, Context>
-{
+export class ArrayPropertyValidator<
+  PropKey extends string,
+  ElemType,
+  Value extends ElemType[],
+  Context,
+> extends BasePropertyValidator<PropKey, Value, Context> {
   constructor(property: PropKey, value: Value, context: Context) {
     super(property, value, context);
   }
@@ -55,19 +62,23 @@ export class ArrayPropertyValidator<PropKey extends string, ElemType, Value exte
         error: 'forEach',
         property: this.prop,
         value: JSON.stringify(this.value),
-        description: 'one or more values did not pass the array element validation',
+        description: message ?? 'one or more values did not pass the array element validation',
       });
     }
 
     return this;
   }
 
-  public isNull(message?: string | undefined): ArrayPropertyValidator<PropKey, ElemType, Value, Context> {
+  public isNull(
+    message?: string | undefined,
+  ): ArrayPropertyValidator<PropKey, ElemType, Value, Context> {
     super.isNull(message);
     return this;
   }
 
-  public isUndefined(message?: string | undefined): ArrayPropertyValidator<PropKey, ElemType, Value, Context> {
+  public isUndefined(
+    message?: string | undefined,
+  ): ArrayPropertyValidator<PropKey, ElemType, Value, Context> {
     super.isUndefined(message);
     return this;
   }

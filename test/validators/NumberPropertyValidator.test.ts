@@ -9,7 +9,7 @@ describe('NumberPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('equal');
       expect(property).toBe('prop');
       expect(value).toBe('null');
@@ -23,7 +23,7 @@ describe('NumberPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('equal');
       expect(property).toBe('prop');
       expect(value).toBe('undefined');
@@ -46,11 +46,11 @@ describe('NumberPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('equal');
       expect(property).toBe('prop');
       expect(value).toBe('12');
-      expect(description).toBe('value should have been \'11\'');
+      expect(description).toBe("value should have been '11'");
     });
   });
 
@@ -62,7 +62,7 @@ describe('NumberPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('greaterThan');
       expect(property).toBe('prop');
       expect(value).toBe('null');
@@ -76,7 +76,7 @@ describe('NumberPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('greaterThan');
       expect(property).toBe('prop');
       expect(value).toBe('undefined');
@@ -99,11 +99,11 @@ describe('NumberPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('greaterThan');
       expect(property).toBe('prop');
       expect(value).toBe('12');
-      expect(description).toBe('value should have been greater than \'12\'');
+      expect(description).toBe("value should have been greater than '12'");
     });
 
     it('value less than expected should return validation error', () => {
@@ -113,11 +113,11 @@ describe('NumberPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('greaterThan');
       expect(property).toBe('prop');
       expect(value).toBe('11');
-      expect(description).toBe('value should have been greater than \'12\'');
+      expect(description).toBe("value should have been greater than '12'");
     });
   });
 
@@ -129,7 +129,7 @@ describe('NumberPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('greaterThanOrEqual');
       expect(property).toBe('prop');
       expect(value).toBe('null');
@@ -143,7 +143,7 @@ describe('NumberPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('greaterThanOrEqual');
       expect(property).toBe('prop');
       expect(value).toBe('undefined');
@@ -175,11 +175,11 @@ describe('NumberPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('greaterThanOrEqual');
       expect(property).toBe('prop');
       expect(value).toBe('11');
-      expect(description).toBe('value should have been greater than or equal to \'12\'');
+      expect(description).toBe("value should have been greater than or equal to '12'");
     });
   });
 
@@ -191,7 +191,7 @@ describe('NumberPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('lessThan');
       expect(property).toBe('prop');
       expect(value).toBe('null');
@@ -205,7 +205,7 @@ describe('NumberPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('lessThan');
       expect(property).toBe('prop');
       expect(value).toBe('undefined');
@@ -228,11 +228,11 @@ describe('NumberPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('lessThan');
       expect(property).toBe('prop');
       expect(value).toBe('12');
-      expect(description).toBe('value should have been less than \'12\'');
+      expect(description).toBe("value should have been less than '12'");
     });
 
     it('value greater than expected should return validation error', () => {
@@ -242,11 +242,11 @@ describe('NumberPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('lessThan');
       expect(property).toBe('prop');
       expect(value).toBe('13');
-      expect(description).toBe('value should have been less than \'12\'');
+      expect(description).toBe("value should have been less than '12'");
     });
   });
 
@@ -258,7 +258,7 @@ describe('NumberPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('lessThanOrEqual');
       expect(property).toBe('prop');
       expect(value).toBe('null');
@@ -272,7 +272,7 @@ describe('NumberPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('lessThanOrEqual');
       expect(property).toBe('prop');
       expect(value).toBe('undefined');
@@ -304,11 +304,11 @@ describe('NumberPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('lessThanOrEqual');
       expect(property).toBe('prop');
       expect(value).toBe('13');
-      expect(description).toBe('value should have been less than or equal to \'12\'');
+      expect(description).toBe("value should have been less than or equal to '12'");
     });
   });
 });

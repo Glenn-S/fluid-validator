@@ -1,12 +1,18 @@
 import { BasePropertyValidator } from './BasePropertyValidator';
 import { ValidationError } from './types';
 
-export type UnknownValidator<Key extends string, Value, Context> = UnknownPropertyValidator<Key, Value, Context> &
+export type UnknownValidator<Key extends string, Value, Context> = UnknownPropertyValidator<
+  Key,
+  Value,
+  Context
+> &
   BasePropertyValidator<Key, Value, Context>;
 
-export class UnknownPropertyValidator<PropKey extends string, Value, Context>
-  extends BasePropertyValidator<PropKey, Value, Context>
-{
+export class UnknownPropertyValidator<
+  PropKey extends string,
+  Value,
+  Context,
+> extends BasePropertyValidator<PropKey, Value, Context> {
   constructor(property: PropKey, value: Value, context: Context) {
     super(property, value, context);
   }
@@ -16,7 +22,9 @@ export class UnknownPropertyValidator<PropKey extends string, Value, Context>
     return this;
   }
 
-  public isUndefined(message?: string | undefined): UnknownPropertyValidator<PropKey, Value, Context> {
+  public isUndefined(
+    message?: string | undefined,
+  ): UnknownPropertyValidator<PropKey, Value, Context> {
     super.isUndefined(message);
     return this;
   }

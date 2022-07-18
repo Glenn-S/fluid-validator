@@ -9,7 +9,7 @@ describe('BooleanPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('isTrue');
       expect(property).toBe('prop');
       expect(value).toBe('null');
@@ -23,7 +23,7 @@ describe('BooleanPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('isTrue');
       expect(property).toBe('prop');
       expect(value).toBe('undefined');
@@ -46,7 +46,7 @@ describe('BooleanPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('isTrue');
       expect(property).toBe('prop');
       expect(value).toBe('false');
@@ -62,7 +62,7 @@ describe('BooleanPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('isFalse');
       expect(property).toBe('prop');
       expect(value).toBe('null');
@@ -76,7 +76,7 @@ describe('BooleanPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('isFalse');
       expect(property).toBe('prop');
       expect(value).toBe('undefined');
@@ -99,7 +99,7 @@ describe('BooleanPropertyValidator', () => {
       const result = validator.getValidationErrors();
 
       expect(result.length).toBe(1);
-      const {error, property, value, description} = result[0];
+      const { error, property, value, description } = result[0];
       expect(error).toBe('isFalse');
       expect(property).toBe('prop');
       expect(value).toBe('true');

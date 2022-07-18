@@ -2,12 +2,18 @@ import { CommonProperty, PropertyValidator, ValidationError } from './types';
 import { BasePropertyValidator } from './BasePropertyValidator';
 import { PropertyValidatorFactory } from './PropertyValidatorFactory';
 
-export type ObjectValidator<Key extends string, Value, Context> = ObjectPropertyValidator<Key, Value, Context> &
+export type ObjectValidator<Key extends string, Value, Context> = ObjectPropertyValidator<
+  Key,
+  Value,
+  Context
+> &
   BasePropertyValidator<Key, Value, Context>;
 
-export class ObjectPropertyValidator<PropKey extends string, Value, Context>
-  extends BasePropertyValidator<PropKey, Value, Context>
-{
+export class ObjectPropertyValidator<
+  PropKey extends string,
+  Value,
+  Context,
+> extends BasePropertyValidator<PropKey, Value, Context> {
   constructor(property: PropKey, value: Value, context: Context) {
     super(property, value, context);
   }
@@ -40,7 +46,9 @@ export class ObjectPropertyValidator<PropKey extends string, Value, Context>
     return this;
   }
 
-  public isUndefined(message?: string | undefined): ObjectPropertyValidator<PropKey, Value, Context> {
+  public isUndefined(
+    message?: string | undefined,
+  ): ObjectPropertyValidator<PropKey, Value, Context> {
     super.isUndefined(message);
     return this;
   }
