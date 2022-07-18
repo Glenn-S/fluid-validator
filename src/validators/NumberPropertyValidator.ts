@@ -107,7 +107,7 @@ export class NumberPropertyValidator<PropKey extends string, Context>
   }
 
   public custom(
-    customValidator: (value: number | undefined, context: Context) => ValidationError | null
+    customValidator: (value: number | undefined, context: Context) => ValidationError | null,
   ): NumberPropertyValidator<PropKey, Context> {
     super.custom(customValidator);
     return this;

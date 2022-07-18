@@ -7,16 +7,18 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+"
+    "url": "git+https://github.com/Glenn-S/validator"
   },
   "bugs": {
-    "url": ""
+    "url": "https://github.com/Glenn-S/validator/issues"
   },
   "homepage": "",
   "scripts": {
     "start": "ts-node index.ts",
     "build": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "tslint -p tsconfig.json"
   },
   "devDependencies": {
     "@types/jest": "^28.1.5",

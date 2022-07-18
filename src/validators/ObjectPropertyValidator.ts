@@ -3,7 +3,7 @@ import { BasePropertyValidator } from './BasePropertyValidator';
 import { PropertyValidatorFactory } from './PropertyValidatorFactory';
 
 export type ObjectValidator<Key extends string, Value, Context> = ObjectPropertyValidator<Key, Value, Context> &
-  BasePropertyValidator<Key, Value, Context>
+  BasePropertyValidator<Key, Value, Context>;
 
 export class ObjectPropertyValidator<PropKey extends string, Value, Context>
   extends BasePropertyValidator<PropKey, Value, Context>
@@ -46,7 +46,7 @@ export class ObjectPropertyValidator<PropKey extends string, Value, Context>
   }
 
   public custom(
-    customValidator: (value: Value | undefined, context: Context) => ValidationError | null
+    customValidator: (value: Value | undefined, context: Context) => ValidationError | null,
   ): ObjectPropertyValidator<PropKey, Value, Context> {
     super.custom(customValidator);
     return this;

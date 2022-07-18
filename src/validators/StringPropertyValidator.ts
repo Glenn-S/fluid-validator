@@ -45,7 +45,7 @@ export class StringPropertyValidator<PropKey extends string, Context>
     return this;
   }
 
-  public regex(expected: RegExp, message?: string) : StringPropertyValidator<PropKey, Context> {
+  public regex(expected: RegExp, message?: string): StringPropertyValidator<PropKey, Context> {
     if (this.value === undefined || this.value === null) {
       this.getInvalidValueError('regex');
       return this;
@@ -73,7 +73,7 @@ export class StringPropertyValidator<PropKey extends string, Context>
   }
 
   public custom(
-    customValidator: (value: string | undefined, context: Context) => ValidationError | null
+    customValidator: (value: string | undefined, context: Context) => ValidationError | null,
   ): StringPropertyValidator<PropKey, Context> {
     super.custom(customValidator);
     return this;

@@ -34,7 +34,7 @@ describe('PropertyValidatorFactory', () => {
     it('array value should return the ArrayPropertyValidator', () => {
       const result = PropertyValidatorFactory.getPropertyValidator('prop', ['test'], {});
 
-      const actualInstance = result instanceof ArrayPropertyValidator<'prop', string[], {}>;
+      const actualInstance = result instanceof ArrayPropertyValidator<'prop', string, string[], {}>;
       expect(actualInstance).toBe(true);
     });
 

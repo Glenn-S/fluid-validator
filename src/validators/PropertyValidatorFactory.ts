@@ -6,13 +6,13 @@ import { ObjectPropertyValidator } from './ObjectPropertyValidator';
 import { StringPropertyValidator } from './StringPropertyValidator';
 import { UnknownPropertyValidator, UnknownValidator } from './UnknownPropertyValidator';
 
-type ArrayElem<ArrType> = ArrType extends (infer ElementType) ? ElementType : unknown;
+type ArrayElem<ArrType> = ArrType extends infer ElementType ? ElementType : unknown;
 
 export class PropertyValidatorFactory {
   public static getPropertyValidator<PropKey extends string, Value, Context>(
     property: PropKey,
     value: Value,
-    context: Context
+    context: Context,
   ): PropertyValidator<PropKey, Value, Context> {
     switch (typeof value) {
       case 'string':

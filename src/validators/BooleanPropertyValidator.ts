@@ -56,7 +56,7 @@ export class BooleanPropertyValidator<PropKey extends string, Context>
   }
 
   public custom(
-    customValidator: (value: boolean | undefined, context: Context) => ValidationError | null
+    customValidator: (value: boolean | undefined, context: Context) => ValidationError | null,
   ): BooleanPropertyValidator<PropKey, Context> {
     super.custom(customValidator);
     return this;
