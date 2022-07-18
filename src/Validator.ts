@@ -25,7 +25,9 @@ export class Validator<Context> {
       this.objectToValidate,
     );
     fn(propertyValidator);
-    this.validationErrors.push(...(propertyValidator as CommonProperty).getValidationErrors());
+    this.validationErrors.push(
+      ...(propertyValidator as CommonProperty).getValidationErrors(),
+    );
     return this;
   }
 

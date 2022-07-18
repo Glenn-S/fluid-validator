@@ -41,7 +41,9 @@ export class BasePropertyValidator<PropKey extends string, Value, Context> {
     return true;
   }
 
-  protected isUndefined(message?: string): BasePropertyValidator<PropKey, Value, Context> {
+  protected isUndefined(
+    message?: string,
+  ): BasePropertyValidator<PropKey, Value, Context> {
     if (this.value !== undefined) {
       this.validationErrors.push({
         error: 'isUndefined',
@@ -54,7 +56,9 @@ export class BasePropertyValidator<PropKey extends string, Value, Context> {
     return this;
   }
 
-  protected isNull(message?: string): BasePropertyValidator<PropKey, Value, Context> {
+  protected isNull(
+    message?: string,
+  ): BasePropertyValidator<PropKey, Value, Context> {
     if (this.value !== null) {
       this.validationErrors.push({
         error: 'isNull',
@@ -68,7 +72,10 @@ export class BasePropertyValidator<PropKey extends string, Value, Context> {
   }
 
   protected custom(
-    customValidator: (value: Value | undefined, context: Context) => ValidationError | null,
+    customValidator: (
+      value: Value | undefined,
+      context: Context,
+    ) => ValidationError | null,
   ): BasePropertyValidator<PropKey, Value, Context> {
     const validationError = customValidator(this.value, this.context);
     if (validationError) {

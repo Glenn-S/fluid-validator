@@ -17,7 +17,11 @@ describe('ObjectPropertyValidator', () => {
     };
 
     it('null value should generate invalid value validation error', () => {
-      const validator = new ObjectPropertyValidator('prop', null as unknown as TestInterface, {});
+      const validator = new ObjectPropertyValidator(
+        'prop',
+        null as unknown as TestInterface,
+        {},
+      );
       validator.property('prop1', (prop1) => prop1.maxLength(3));
 
       const result = validator.getValidationErrors();
@@ -27,7 +31,9 @@ describe('ObjectPropertyValidator', () => {
       expect(error).toBe('property');
       expect(property).toBe('prop');
       expect(value).toBe('null');
-      expect(description).toBe('the value was null when it should not have been');
+      expect(description).toBe(
+        'the value was null when it should not have been',
+      );
     });
 
     it('undefined value should generate invalid value validation error', () => {
@@ -45,7 +51,9 @@ describe('ObjectPropertyValidator', () => {
       expect(error).toBe('property');
       expect(property).toBe('prop');
       expect(value).toBe('undefined');
-      expect(description).toBe('the value was undefined when it should not have been');
+      expect(description).toBe(
+        'the value was undefined when it should not have been',
+      );
     });
 
     it('valid property validation should not return validation error', () => {
@@ -68,7 +76,9 @@ describe('ObjectPropertyValidator', () => {
       expect(error).toBe('maxLength');
       expect(property).toBe('prop.prop1');
       expect(value).toBe('abcd');
-      expect(description).toBe("value should have been no more than '3' characters");
+      expect(description).toBe(
+        "value should have been no more than '3' characters",
+      );
     });
 
     it('invalid nested property validation should return validation error', () => {
@@ -84,7 +94,9 @@ describe('ObjectPropertyValidator', () => {
       expect(error).toBe('maxLength');
       expect(property).toBe('prop.prop2.innerProp');
       expect(value).toBe('inner');
-      expect(description).toBe("value should have been no more than '3' characters");
+      expect(description).toBe(
+        "value should have been no more than '3' characters",
+      );
     });
   });
 });

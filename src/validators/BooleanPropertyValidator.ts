@@ -1,7 +1,10 @@
 import { ValidationError } from './types';
 import { BasePropertyValidator } from './BasePropertyValidator';
 
-export type BooleanValidator<Key extends string, Context> = BooleanPropertyValidator<Key, Context> &
+export type BooleanValidator<
+  Key extends string,
+  Context,
+> = BooleanPropertyValidator<Key, Context> &
   BasePropertyValidator<Key, boolean, Context>;
 
 export class BooleanPropertyValidator<
@@ -46,18 +49,25 @@ export class BooleanPropertyValidator<
     return this;
   }
 
-  public isNull(message?: string | undefined): BooleanPropertyValidator<PropKey, Context> {
+  public isNull(
+    message?: string | undefined,
+  ): BooleanPropertyValidator<PropKey, Context> {
     super.isNull(message);
     return this;
   }
 
-  public isUndefined(message?: string | undefined): BooleanPropertyValidator<PropKey, Context> {
+  public isUndefined(
+    message?: string | undefined,
+  ): BooleanPropertyValidator<PropKey, Context> {
     super.isUndefined(message);
     return this;
   }
 
   public custom(
-    customValidator: (value: boolean | undefined, context: Context) => ValidationError | null,
+    customValidator: (
+      value: boolean | undefined,
+      context: Context,
+    ) => ValidationError | null,
   ): BooleanPropertyValidator<PropKey, Context> {
     super.custom(customValidator);
     return this;

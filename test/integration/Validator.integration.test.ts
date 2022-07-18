@@ -50,7 +50,10 @@ describe('Validator', () => {
 
     expect(result.isValid).toBe(false);
     expect(result.errors.length).toBe(2);
-    const errors = result.errors.map((e) => ({ error: e.error, property: e.property }));
+    const errors = result.errors.map((e) => ({
+      error: e.error,
+      property: e.property,
+    }));
     expect(errors.every((e) => e.property === 'prop1')).toBe(true);
     expect(errors.filter((e) => e.error === 'minLength').length).toBe(1);
     expect(errors.filter((e) => e.error === 'regex').length).toBe(1);
@@ -58,7 +61,9 @@ describe('Validator', () => {
 
   it('calling throwOnError in validate should throw error when validation error occurs', () => {
     const result = () =>
-      new Validator(testData).property('prop1', (prop1) => prop1.minLength(4)).validate(true);
+      new Validator(testData)
+        .property('prop1', (prop1) => prop1.minLength(4))
+        .validate(true);
 
     expect(result).toThrow();
   });

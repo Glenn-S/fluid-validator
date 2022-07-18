@@ -6,7 +6,9 @@ import { ObjectPropertyValidator } from './ObjectPropertyValidator';
 import { StringPropertyValidator } from './StringPropertyValidator';
 import { UnknownPropertyValidator } from './UnknownPropertyValidator';
 
-type ArrayElem<ArrType> = ArrType extends infer ElementType ? ElementType : unknown;
+type ArrayElem<ArrType> = ArrType extends infer ElementType
+  ? ElementType
+  : unknown;
 
 export class PropertyValidatorFactory {
   public static getPropertyValidator<PropKey extends string, Value, Context>(

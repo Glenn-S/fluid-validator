@@ -2,11 +2,11 @@ import { CommonProperty, PropertyValidator, ValidationError } from './types';
 import { BasePropertyValidator } from './BasePropertyValidator';
 import { PropertyValidatorFactory } from './PropertyValidatorFactory';
 
-export type ObjectValidator<Key extends string, Value, Context> = ObjectPropertyValidator<
-  Key,
+export type ObjectValidator<
+  Key extends string,
   Value,
-  Context
-> &
+  Context,
+> = ObjectPropertyValidator<Key, Value, Context> &
   BasePropertyValidator<Key, Value, Context>;
 
 export class ObjectPropertyValidator<
@@ -33,7 +33,9 @@ export class ObjectPropertyValidator<
       this.context,
     );
     fn(propertyValidator);
-    const innerValidationErrors = [...(propertyValidator as CommonProperty).getValidationErrors()];
+    const innerValidationErrors = [
+      ...(propertyValidator as CommonProperty).getValidationErrors(),
+    ];
     innerValidationErrors.forEach((innerError) => {
       innerError.property = `${this.prop}.${innerError.property}`;
     });
@@ -41,7 +43,9 @@ export class ObjectPropertyValidator<
     return this;
   }
 
-  public isNull(message?: string | undefined): ObjectPropertyValidator<PropKey, Value, Context> {
+  public isNull(
+    message?: string | undefined,
+  ): ObjectPropertyValidator<PropKey, Value, Context> {
     super.isNull(message);
     return this;
   }
@@ -54,7 +58,10 @@ export class ObjectPropertyValidator<
   }
 
   public custom(
-    customValidator: (value: Value | undefined, context: Context) => ValidationError | null,
+    customValidator: (
+      value: Value | undefined,
+      context: Context,
+    ) => ValidationError | null,
   ): ObjectPropertyValidator<PropKey, Value, Context> {
     super.custom(customValidator);
     return this;

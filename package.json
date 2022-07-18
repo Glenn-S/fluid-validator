@@ -17,10 +17,10 @@
     "start": "ts-node index.ts",
     "build": "tsc",
     "test": "jest",
+    "lint": "eslint ./src ./test --ext .ts",
+    "lint-format": "eslint ./src ./test --ext .ts --fix",
     "format": "prettier --write 'src/**/*.ts' 'src/**/*.js' 'test/**/*.ts' 'test/**/*.js'",
-    "prettier-watch": "onchange 'src/**/*.ts' 'src/**/*.js' 'test/**/*.ts' 'test/**/*.js' -- prettier --write {{changed}}",
-    "tslint": "tslint -p tsconfig.json",
-    "lint": "eslint ./src ./test --ext .ts --fix"
+    "prettier-watch": "onchange 'src/**/*.ts' 'src/**/*.js' 'test/**/*.ts' 'test/**/*.js' -- prettier --write {{changed}}"
   },
   "devDependencies": {
     "@types/jest": "^28.1.5",

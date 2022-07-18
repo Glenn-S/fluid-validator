@@ -1,11 +1,11 @@
 import { BasePropertyValidator } from './BasePropertyValidator';
 import { ValidationError } from './types';
 
-export type UnknownValidator<Key extends string, Value, Context> = UnknownPropertyValidator<
-  Key,
+export type UnknownValidator<
+  Key extends string,
   Value,
-  Context
-> &
+  Context,
+> = UnknownPropertyValidator<Key, Value, Context> &
   BasePropertyValidator<Key, Value, Context>;
 
 export class UnknownPropertyValidator<
@@ -17,7 +17,9 @@ export class UnknownPropertyValidator<
     super(property, value, context);
   }
 
-  public isNull(message?: string | undefined): UnknownPropertyValidator<PropKey, Value, Context> {
+  public isNull(
+    message?: string | undefined,
+  ): UnknownPropertyValidator<PropKey, Value, Context> {
     super.isNull(message);
     return this;
   }
@@ -30,7 +32,10 @@ export class UnknownPropertyValidator<
   }
 
   public custom(
-    customValidator: (value: Value | undefined, context: Context) => ValidationError | null,
+    customValidator: (
+      value: Value | undefined,
+      context: Context,
+    ) => ValidationError | null,
   ): UnknownPropertyValidator<PropKey, Value, Context> {
     super.custom(customValidator);
     return this;

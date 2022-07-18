@@ -21,9 +21,15 @@ export interface CommonProperty {
   getValidationErrors(): ValidationError[];
 }
 
-export type Infer<ArrType> = ArrType extends (infer Element)[] ? Element : unknown;
+export type Infer<ArrType> = ArrType extends (infer Element)[]
+  ? Element
+  : unknown;
 
-export type PropertyValidator<Key extends string, Value, Context> = Value extends string | undefined
+export type PropertyValidator<
+  Key extends string,
+  Value,
+  Context,
+> = Value extends string | undefined
   ? StringValidator<Key, Context>
   : Value extends number | undefined
   ? NumberValidator<Key, Context>

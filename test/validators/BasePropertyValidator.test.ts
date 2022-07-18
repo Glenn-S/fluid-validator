@@ -98,27 +98,33 @@ describe('BasePropertyValidator', () => {
   });
 });
 
-class TestBasePropertyValidator<PropKey extends string, Context> extends BasePropertyValidator<
-  PropKey,
-  boolean,
-  Context
-> {
+class TestBasePropertyValidator<
+  PropKey extends string,
+  Context,
+> extends BasePropertyValidator<PropKey, boolean, Context> {
   constructor(property: PropKey, value: boolean, context: Context) {
     super(property, value, context);
   }
 
-  public isNull(message?: string | undefined): TestBasePropertyValidator<PropKey, Context> {
+  public isNull(
+    message?: string | undefined,
+  ): TestBasePropertyValidator<PropKey, Context> {
     super.isNull(message);
     return this;
   }
 
-  public isUndefined(message?: string | undefined): TestBasePropertyValidator<PropKey, Context> {
+  public isUndefined(
+    message?: string | undefined,
+  ): TestBasePropertyValidator<PropKey, Context> {
     super.isUndefined(message);
     return this;
   }
 
   public custom(
-    customValidator: (value: boolean | undefined, context: Context) => ValidationError | null,
+    customValidator: (
+      value: boolean | undefined,
+      context: Context,
+    ) => ValidationError | null,
   ): TestBasePropertyValidator<PropKey, Context> {
     super.custom(customValidator);
     return this;

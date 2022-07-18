@@ -1,6 +1,11 @@
 import { BasePropertyValidator } from './BasePropertyValidator';
 import { PropertyValidatorFactory } from './PropertyValidatorFactory';
-import { CommonProperty, Infer, PropertyValidator, ValidationError } from './types';
+import {
+  CommonProperty,
+  Infer,
+  PropertyValidator,
+  ValidationError,
+} from './types';
 
 export type ArrayValidator<
   Key extends string,
@@ -20,7 +25,9 @@ export class ArrayPropertyValidator<
     super(property, value, context);
   }
 
-  public isEmpty(message?: string): ArrayPropertyValidator<PropKey, ElemType, Value, Context> {
+  public isEmpty(
+    message?: string,
+  ): ArrayPropertyValidator<PropKey, ElemType, Value, Context> {
     if (this.value === undefined || this.value === null) {
       this.getInvalidValueError('isEmpty');
       return this;
@@ -54,7 +61,9 @@ export class ArrayPropertyValidator<
         this.context,
       );
       fn(propertyValidator);
-      errorList.push(...(propertyValidator as CommonProperty).getValidationErrors());
+      errorList.push(
+        ...(propertyValidator as CommonProperty).getValidationErrors(),
+      );
     });
 
     if (errorList.length > 0) {
@@ -62,7 +71,9 @@ export class ArrayPropertyValidator<
         error: 'forEach',
         property: this.prop,
         value: JSON.stringify(this.value),
-        description: message ?? 'one or more values did not pass the array element validation',
+        description:
+          message ??
+          'one or more values did not pass the array element validation',
       });
     }
 
@@ -84,7 +95,10 @@ export class ArrayPropertyValidator<
   }
 
   public custom(
-    customValidator: (value: Value | undefined, context: Context) => ValidationError | null,
+    customValidator: (
+      value: Value | undefined,
+      context: Context,
+    ) => ValidationError | null,
   ): ArrayPropertyValidator<PropKey, ElemType, Value, Context> {
     super.custom(customValidator);
     return this;
