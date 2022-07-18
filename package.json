@@ -16,12 +16,13 @@
   "scripts": {
     "start": "ts-node index.ts",
     "build": "tsc",
-    "test": "jest",
+    "test": "jest --config jestconfig.json",
     "lint": "eslint ./src ./test --ext .ts",
     "lint-format": "eslint ./src ./test --ext .ts --fix",
     "format": "prettier --write 'src/**/*.ts' 'src/**/*.js' 'test/**/*.ts' 'test/**/*.js'",
     "prettier-watch": "onchange 'src/**/*.ts' 'src/**/*.js' 'test/**/*.ts' 'test/**/*.js' -- prettier --write {{changed}}"
   },
+  "files": ["lib/**/*"],
   "devDependencies": {
     "@types/jest": "^28.1.5",
     "@typescript-eslint/eslint-plugin": "^5.30.6",
