@@ -1,0 +1,31 @@
+{
+	"folders": [
+		{
+			"path": "./"
+		}
+	],
+	"settings": {
+		"editor.suggestSelection": "first",
+		"vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+		"editor.tabSize": 2,
+		"typescript.updateImportsOnFileMove.enabled": "always",
+		"prettier.singleQuote": true,
+		"prettier.jsxSingleQuote": true,
+		"typescript.preferences.quoteStyle": "single",
+		"javascript.preferences.quoteStyle": "single",
+		"git.autofetch": true,
+		"git.allowForcePush": true,
+		"git.confirmForcePush": false,
+		"git.confirmSync": false
+	},
+	"extensions": {
+		"recommendations": [
+			"kavod-io.vscode-jest-test-adapter",
+			"hbenl.vscode-test-explorer",
+			"visualstudioexptteam.vscodeintellicode",
+			"eamodio.gitlens",
+			"mhutchie.git-graph",
+			"ms-vscode.vscode-typescript-next"
+		]
+	}
+}
