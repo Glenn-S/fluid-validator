@@ -1,7 +1,4 @@
-import {
-  ValidationResult,
-  ValidationError,
-} from './validators/types';
+import { ValidationResult, ValidationError } from './validators/types';
 
-export type {ValidationError, ValidationResult};
-export {Validator} from './Validator';
+export type { ValidationError, ValidationResult };
+export { Validator } from './Validator';
