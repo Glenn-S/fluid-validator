@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "An object validator for handling entity validations",
   "author": "Glenn Skelton",
-  "license": "GPLv3",
-  "keywords": ["validator", "validation"],
+  "license": "GPL-3.0-only",
+  "keywords": [
+    "validator",
+    "validation"
+  ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "repository": {
@@ -26,7 +29,9 @@
     "version": "yarn lint-format && git add -A src",
     "postversion": "git push && git push --tags"
   },
-  "files": ["lib/**/*"],
+  "files": [
+    "lib/**/*"
+  ],
   "devDependencies": {
     "@types/jest": "^28.1.5",
     "@typescript-eslint/eslint-plugin": "^5.30.6",
