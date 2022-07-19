@@ -2,9 +2,11 @@
   "name": "validator",
   "version": "1.0.0",
   "description": "An object validator for handling entity validations",
-  "main": "index.ts",
   "author": "Glenn Skelton",
-  "license": "MIT",
+  "license": "GPLv3",
+  "keywords": ["validator", "validation"],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Glenn-S/validator"
@@ -14,13 +16,15 @@
   },
   "homepage": "",
   "scripts": {
-    "start": "ts-node index.ts",
-    "build": "tsc",
     "test": "jest --config jestconfig.json",
+    "build": "tsc",
+    "format": "eslint ./src ./test --ext .ts --fix",
     "lint": "eslint ./src ./test --ext .ts",
-    "lint-format": "eslint ./src ./test --ext .ts --fix",
-    "format": "prettier --write 'src/**/*.ts' 'src/**/*.js' 'test/**/*.ts' 'test/**/*.js'",
-    "prettier-watch": "onchange 'src/**/*.ts' 'src/**/*.js' 'test/**/*.ts' 'test/**/*.js' -- prettier --write {{changed}}"
+    "prepare": "yarn build",
+    "prepublishOnly": "yarn test && yarn lint",
+    "preversion": "yarn lint",
+    "version": "yarn lint-format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "files": ["lib/**/*"],
   "devDependencies": {
