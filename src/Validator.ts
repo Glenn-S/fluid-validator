@@ -7,37 +7,45 @@ import {
 } from './validators';
 
 export class Validator<Context> {
-  private objectToValidate: Context;
-  private validationErrors: ValidationError[];
+  private validations: ((context: Context) => ValidationError[])[];
 
-  constructor(obj: Context) {
-    this.objectToValidate = obj;
-    this.validationErrors = [];
+  constructor() {
+    this.validations = [];
   }
 
   public property<Key extends keyof Context & string>(
     property: Key,
     fn: (prop: PropertyValidator<Key, Context[Key], Context>) => void,
   ): Validator<Context> {
-    const propertyValidator = PropertyValidatorFactory.getPropertyValidator(
-      property,
-      this.objectToValidate[property],
-      this.objectToValidate,
-    );
-    fn(propertyValidator);
-    this.validationErrors.push(
-      ...(propertyValidator as CommonProperty).getValidationErrors(),
-    );
+    const validation = (context: Context) => {
+      const propertyValidator = PropertyValidatorFactory.getPropertyValidator(
+        property,
+        context[property],
+        context,
+      );
+      fn(propertyValidator);
+      const errors = (
+        propertyValidator as CommonProperty
+      ).getValidationErrors();
+      return [...errors];
+    };
+    this.validations.push(validation);
+
     return this;
   }
 
-  public validate(throwOnError = false): ValidationResult {
-    if (this.validationErrors.length > 0 && throwOnError) {
-      throw new Error(JSON.stringify(this.validationErrors));
+  public validate(context: Context, throwOnError = false): ValidationResult {
+    const validationErrors: ValidationError[] = [];
+    this.validations.forEach((property) =>
+      validationErrors.push(...property(context)),
+    );
+
+    if (validationErrors.length > 0 && throwOnError) {
+      throw new Error(JSON.stringify(validationErrors));
     }
     return {
-      isValid: this.validationErrors.length === 0,
-      errors: this.validationErrors,
+      isValid: validationErrors.length === 0,
+      errors: validationErrors,
     };
   }
 }

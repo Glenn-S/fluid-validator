@@ -14,22 +14,22 @@ describe('Validator', () => {
   };
 
   it('succcessful validation should return successful validation result', () => {
-    const result = new Validator(testData)
+    const result = new Validator<TestInterface>()
       .property('prop1', (prop1) => prop1.minLength(3))
       .property('prop2', (prop2) => prop2.equal(123))
       .property('prop3', (prop3) => prop3.isTrue())
-      .validate();
+      .validate(testData);
 
     expect(result.isValid).toBe(true);
     expect(result.errors.length).toBe(0);
   });
 
   it('failed validation should return validation failures', () => {
-    const result = new Validator(testData)
+    const result = new Validator<TestInterface>()
       .property('prop1', (prop1) => prop1.minLength(4))
       .property('prop2', (prop2) => prop2.equal(124))
       .property('prop3', (prop3) => prop3.isFalse())
-      .validate();
+      .validate(testData);
 
     expect(result.isValid).toBe(false);
     expect(result.errors.length).toBe(3);
@@ -42,11 +42,11 @@ describe('Validator', () => {
   });
 
   it('multiple validation failure on same property should return validation failures', () => {
-    const result = new Validator(testData)
+    const result = new Validator<TestInterface>()
       .property('prop1', (prop1) => {
         prop1.minLength(4).regex(new RegExp(/^abcd$/g));
       })
-      .validate();
+      .validate(testData);
 
     expect(result.isValid).toBe(false);
     expect(result.errors.length).toBe(2);
@@ -61,9 +61,9 @@ describe('Validator', () => {
 
   it('calling throwOnError in validate should throw error when validation error occurs', () => {
     const result = () =>
-      new Validator(testData)
+      new Validator<TestInterface>()
         .property('prop1', (prop1) => prop1.minLength(4))
-        .validate(true);
+        .validate(testData, true);
 
     expect(result).toThrow();
   });
