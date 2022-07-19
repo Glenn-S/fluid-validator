@@ -6,6 +6,10 @@ import {
   ValidationResult,
 } from './validators';
 
+interface IValidate<Context> {
+  validate(context: Context, throwOnError?: boolean): ValidationResult
+}
+
 export class Validator<Context> {
   private validations: ((context: Context) => ValidationError[])[];
 
@@ -31,6 +35,10 @@ export class Validator<Context> {
     };
     this.validations.push(validation);
 
+    return this;
+  }
+
+  public build(): IValidate<Context> {
     return this;
   }
 
