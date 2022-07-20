@@ -12,12 +12,11 @@
   "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Glenn-S/validator"
+    "url": "git+https://github.com/Glenn-S/fluid-validator"
   },
   "bugs": {
-    "url": "https://github.com/Glenn-S/validator/issues"
+    "url": "https://github.com/Glenn-S/fluid-validator/issues"
   },
-  "homepage": "",
   "scripts": {
     "test": "jest --config jestconfig.json",
     "build": "tsc",
