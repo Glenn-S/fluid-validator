@@ -1,0 +1,8 @@
+- add ability to OR or AND conditions. 
+- add in ability to specify isNotNull
+- maybe add in a .not property
+- if using isNull or isUndefined, define some chaining rules for anything that comes after
+- refactor to build a tree and handle rule collisions?
+- unkown should maybe handle any as well?
+- add min/max length check for arrays
+- flesh out more validation methods
