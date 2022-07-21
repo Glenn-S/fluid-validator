@@ -1,10 +1,6 @@
 import { BasePropertyValidator } from './BasePropertyValidator';
 import { PropertyValidatorFactory } from './PropertyValidatorFactory';
-import {
-  Infer,
-  PropertyValidator,
-  ValidationError,
-} from './types';
+import { Infer, PropertyValidator, ValidationError } from './types';
 
 export type ArrayValidator<
   Key extends string,
@@ -30,10 +26,7 @@ export class ArrayPropertyValidator<
   }
 
   // todo add in testing before releasing
-  private minLength(
-    value: number,
-    message?: string,
-  ) {
+  private minLength(value: number, message?: string) {
     if (this.value === undefined || this.value === null) {
       this.getInvalidValueError('isEmpty');
       return this;
@@ -51,10 +44,7 @@ export class ArrayPropertyValidator<
   }
 
   // todo add in testing before releasing
-  private maxLength(
-    value: number,
-    message?: string,
-  ) {
+  private maxLength(value: number, message?: string) {
     if (this.value === undefined || this.value === null) {
       this.getInvalidValueError('isEmpty');
       return this;

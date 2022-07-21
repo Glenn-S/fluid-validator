@@ -6,7 +6,7 @@ import {
 } from './validators';
 
 interface IValidate<Context> {
-  validate(context: Context, throwOnError?: boolean): ValidationResult
+  validate(context: Context, throwOnError?: boolean): ValidationResult;
 }
 
 export class Validator<Context> {
@@ -23,12 +23,14 @@ export class Validator<Context> {
     fn: (prop: PropertyValidator<Key, Context[Key], Context>) => void,
   ): Validator<Context> {
     const validation = (context: Context) => {
-      fn(PropertyValidatorFactory.getPropertyValidator(
-        property,
-        context[property],
-        context,
-        this.validationErrors,
-      ));
+      fn(
+        PropertyValidatorFactory.getPropertyValidator(
+          property,
+          context[property],
+          context,
+          this.validationErrors,
+        ),
+      );
     };
     this.validators.push(validation);
 

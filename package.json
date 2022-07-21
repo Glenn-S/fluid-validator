@@ -1,6 +1,6 @@
 {
   "name": "fluid-validator",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An object validator for handling entity validations",
   "author": "Glenn Skelton",
   "license": "GPL-3.0-only",
