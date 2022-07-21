@@ -15,6 +15,7 @@ describe('PropertyValidatorFactory', () => {
         'prop',
         'test',
         {},
+        [],
       );
 
       const actualInstance =
@@ -27,6 +28,7 @@ describe('PropertyValidatorFactory', () => {
         'prop',
         12,
         {},
+        [],
       );
 
       const actualInstance =
@@ -39,6 +41,7 @@ describe('PropertyValidatorFactory', () => {
         'prop',
         false,
         {},
+        [],
       );
 
       const actualInstance =
@@ -51,6 +54,7 @@ describe('PropertyValidatorFactory', () => {
         'prop',
         { innerProp: 'test' },
         {},
+        [],
       );
 
       const actualInstance =
@@ -64,6 +68,7 @@ describe('PropertyValidatorFactory', () => {
         'prop',
         ['test'],
         {},
+        [],
       );
 
       const actualInstance =
@@ -77,6 +82,7 @@ describe('PropertyValidatorFactory', () => {
         'prop',
         Symbol('test'),
         {},
+        [],
       );
 
       const actualInstance =

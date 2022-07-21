@@ -11,8 +11,13 @@ export class StringPropertyValidator<
   PropKey extends string,
   Context,
 > extends BasePropertyValidator<PropKey, string, Context> {
-  constructor(property: PropKey, value: string, context: Context) {
-    super(property, value, context);
+  constructor(
+    property: PropKey,
+    value: string,
+    context: Context,
+    validationErrors: ValidationError[],
+  ) {
+    super(property, value, context, validationErrors);
   }
 
   public maxLength(

@@ -11,8 +11,13 @@ export class BooleanPropertyValidator<
   PropKey extends string,
   Context,
 > extends BasePropertyValidator<PropKey, boolean, Context> {
-  constructor(property: PropKey, value: boolean, context: Context) {
-    super(property, value, context);
+  constructor(
+    property: PropKey,
+    value: boolean,
+    context: Context,
+    validationErrors: ValidationError[],
+  ) {
+    super(property, value, context, validationErrors);
   }
 
   public isTrue(message?: string): BooleanPropertyValidator<PropKey, Context> {

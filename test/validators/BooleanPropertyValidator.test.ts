@@ -1,19 +1,19 @@
-import { BooleanPropertyValidator } from '../../src/validators';
+import { BooleanPropertyValidator, ValidationError } from '../../src/validators';
 
 describe('BooleanPropertyValidator', () => {
   describe('isTrue', () => {
     it('null value should generate invalid value validation error', () => {
+      const errors: ValidationError[] = [];
       const validator = new BooleanPropertyValidator(
         'prop',
         null as unknown as boolean,
         {},
+        errors
       );
       validator.isTrue();
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('isTrue');
       expect(property).toBe('prop');
       expect(value).toBe('null');
@@ -23,17 +23,17 @@ describe('BooleanPropertyValidator', () => {
     });
 
     it('undefined value should generate invalid value validation error', () => {
+      const errors: ValidationError[] = [];
       const validator = new BooleanPropertyValidator(
         'prop',
         undefined as unknown as boolean,
         {},
+        errors,
       );
       validator.isTrue();
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('isTrue');
       expect(property).toBe('prop');
       expect(value).toBe('undefined');
@@ -43,22 +43,20 @@ describe('BooleanPropertyValidator', () => {
     });
 
     it('value of true should return no validation errors', () => {
-      const validator = new BooleanPropertyValidator('prop', true, {});
+      const errors: ValidationError[] = [];
+      const validator = new BooleanPropertyValidator('prop', true, {}, errors);
       validator.isTrue();
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(0);
+      expect(errors.length).toBe(0);
     });
 
     it('value of false should return validation error', () => {
-      const validator = new BooleanPropertyValidator('prop', false, {});
+      const errors: ValidationError[] = [];
+      const validator = new BooleanPropertyValidator('prop', false, {}, errors);
       validator.isTrue();
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('isTrue');
       expect(property).toBe('prop');
       expect(value).toBe('false');
@@ -68,17 +66,17 @@ describe('BooleanPropertyValidator', () => {
 
   describe('isFalse', () => {
     it('null value should generate invalid value validation error', () => {
+      const errors: ValidationError[] = [];
       const validator = new BooleanPropertyValidator(
         'prop',
         null as unknown as boolean,
         {},
+        errors,
       );
       validator.isFalse();
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('isFalse');
       expect(property).toBe('prop');
       expect(value).toBe('null');
@@ -88,17 +86,17 @@ describe('BooleanPropertyValidator', () => {
     });
 
     it('undefined value should generate invalid value validation error', () => {
+      const errors: ValidationError[] = [];
       const validator = new BooleanPropertyValidator(
         'prop',
         undefined as unknown as boolean,
         {},
+        errors,
       );
       validator.isFalse();
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('isFalse');
       expect(property).toBe('prop');
       expect(value).toBe('undefined');
@@ -108,22 +106,20 @@ describe('BooleanPropertyValidator', () => {
     });
 
     it('value of false should return no validation errors', () => {
-      const validator = new BooleanPropertyValidator('prop', false, {});
+      const errors: ValidationError[] = [];
+      const validator = new BooleanPropertyValidator('prop', false, {}, errors);
       validator.isFalse();
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(0);
+      expect(errors.length).toBe(0);
     });
 
     it('value of true should return validation error', () => {
-      const validator = new BooleanPropertyValidator('prop', true, {});
+      const errors: ValidationError[] = [];
+      const validator = new BooleanPropertyValidator('prop', true, {}, errors);
       validator.isFalse();
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('isFalse');
       expect(property).toBe('prop');
       expect(value).toBe('true');

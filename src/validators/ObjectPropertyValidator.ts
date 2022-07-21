@@ -1,4 +1,4 @@
-import { CommonProperty, PropertyValidator, ValidationError } from './types';
+import { PropertyValidator, ValidationError } from './types';
 import { BasePropertyValidator } from './BasePropertyValidator';
 import { PropertyValidatorFactory } from './PropertyValidatorFactory';
 
@@ -14,8 +14,13 @@ export class ObjectPropertyValidator<
   Value,
   Context,
 > extends BasePropertyValidator<PropKey, Value, Context> {
-  constructor(property: PropKey, value: Value, context: Context) {
-    super(property, value, context);
+  constructor(
+    property: PropKey,
+    value: Value,
+    context: Context,
+    validationErrors: ValidationError[],
+  ) {
+    super(property, value, context, validationErrors);
   }
 
   public property<K extends keyof Value & string>(
@@ -27,15 +32,15 @@ export class ObjectPropertyValidator<
       return this;
     }
 
+    const innerValidationErrors: ValidationError[] = [];
+
     const propertyValidator = PropertyValidatorFactory.getPropertyValidator(
       property,
       this.value[property],
       this.context,
+      innerValidationErrors,
     );
     fn(propertyValidator);
-    const innerValidationErrors = [
-      ...(propertyValidator as CommonProperty).getValidationErrors(),
-    ];
     innerValidationErrors.forEach((innerError) => {
       innerError.property = `${this.prop}.${innerError.property}`;
     });

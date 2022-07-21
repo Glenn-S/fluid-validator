@@ -11,8 +11,13 @@ export class NumberPropertyValidator<
   PropKey extends string,
   Context,
 > extends BasePropertyValidator<PropKey, number, Context> {
-  constructor(property: PropKey, value: number, context: Context) {
-    super(property, value, context);
+  constructor(
+    property: PropKey,
+    value: number,
+    context: Context,
+    validationErrors: ValidationError[],
+  ) {
+    super(property, value, context, validationErrors);
   }
 
   public equal(
@@ -25,6 +30,27 @@ export class NumberPropertyValidator<
     }
 
     if (this.value !== expected) {
+      this.validationErrors.push({
+        error: 'equal',
+        property: this.prop,
+        value: this.value?.toString(),
+        description: message ?? `value should have been '${expected}'`,
+      });
+    }
+    return this;
+  }
+
+  // todo add in testing
+  public notEqual(
+    expected: number,
+    message?: string,
+  ): NumberPropertyValidator<PropKey, Context> {
+    if (this.value === undefined || this.value === null) {
+      this.getInvalidValueError('equal');
+      return this;
+    }
+
+    if (this.value === expected) {
       this.validationErrors.push({
         error: 'equal',
         property: this.prop,

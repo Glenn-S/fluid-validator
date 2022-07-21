@@ -1,7 +1,6 @@
 import { BasePropertyValidator } from './BasePropertyValidator';
 import { PropertyValidatorFactory } from './PropertyValidatorFactory';
 import {
-  CommonProperty,
   Infer,
   PropertyValidator,
   ValidationError,
@@ -21,8 +20,55 @@ export class ArrayPropertyValidator<
   Value extends ElemType[],
   Context,
 > extends BasePropertyValidator<PropKey, Value, Context> {
-  constructor(property: PropKey, value: Value, context: Context) {
-    super(property, value, context);
+  constructor(
+    property: PropKey,
+    value: Value,
+    context: Context,
+    validationErrors: ValidationError[],
+  ) {
+    super(property, value, context, validationErrors);
+  }
+
+  // todo add in testing
+  public minLength(
+    value: number,
+    message?: string,
+  ) {
+    if (this.value === undefined || this.value === null) {
+      this.getInvalidValueError('isEmpty');
+      return this;
+    }
+
+    if (this.value.length < value) {
+      this.validationErrors.push({
+        error: 'isEmpty',
+        property: this.prop,
+        value: JSON.stringify(this.value),
+        description: message ?? `array should have been empty`,
+      });
+    }
+    return this;
+  }
+
+  // todo add in testing
+  public maxLength(
+    value: number,
+    message?: string,
+  ) {
+    if (this.value === undefined || this.value === null) {
+      this.getInvalidValueError('isEmpty');
+      return this;
+    }
+
+    if (this.value.length > value) {
+      this.validationErrors.push({
+        error: 'isEmpty',
+        property: this.prop,
+        value: JSON.stringify(this.value),
+        description: message ?? `array should have been empty`,
+      });
+    }
+    return this;
   }
 
   public isEmpty(
@@ -59,11 +105,9 @@ export class ArrayPropertyValidator<
         this.prop,
         val as Infer<Value>,
         this.context,
+        errorList,
       );
       fn(propertyValidator);
-      errorList.push(
-        ...(propertyValidator as CommonProperty).getValidationErrors(),
-      );
     });
 
     if (errorList.length > 0) {

@@ -4,23 +4,21 @@ import { BasePropertyValidator } from '../../src/validators/BasePropertyValidato
 describe('BasePropertyValidator', () => {
   describe('isNull', () => {
     it('value of null should return no validation error', () => {
+      const errors: ValidationError[] = [];
       const testValue: boolean = null as unknown as boolean;
-      const validator = new TestBasePropertyValidator('prop', testValue, {});
+      const validator = new TestBasePropertyValidator('prop', testValue, {}, errors);
       validator.isNull();
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(0);
+      expect(errors.length).toBe(0);
     });
 
     it('value not null should return validation error', () => {
-      const validator = new TestBasePropertyValidator('prop', false, {});
+      const errors: ValidationError[] = [];
+      const validator = new TestBasePropertyValidator('prop', false, {}, errors);
       validator.isNull();
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('isNull');
       expect(property).toBe('prop');
       expect(value).toBe('false');
@@ -30,23 +28,21 @@ describe('BasePropertyValidator', () => {
 
   describe('isUndefined', () => {
     it('value of undefined should return no validation error', () => {
+      const errors: ValidationError[] = [];
       const testValue: boolean = undefined as unknown as boolean;
-      const validator = new TestBasePropertyValidator('prop', testValue, {});
+      const validator = new TestBasePropertyValidator('prop', testValue, {}, errors);
       validator.isUndefined();
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(0);
+      expect(errors.length).toBe(0);
     });
 
     it('value not undefined should return validation error', () => {
-      const validator = new TestBasePropertyValidator('prop', true, {});
+      const errors: ValidationError[] = [];
+      const validator = new TestBasePropertyValidator('prop', true, {}, errors);
       validator.isUndefined();
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('isUndefined');
       expect(property).toBe('prop');
       expect(value).toBe('true');
@@ -56,7 +52,8 @@ describe('BasePropertyValidator', () => {
 
   describe('custom', () => {
     it('valid value should not return validation error', () => {
-      const validator = new TestBasePropertyValidator('prop', false, {});
+      const errors: ValidationError[] = [];
+      const validator = new TestBasePropertyValidator('prop', false, {}, errors);
       validator.custom((value) => {
         return value === true
           ? {
@@ -68,13 +65,12 @@ describe('BasePropertyValidator', () => {
           : null;
       });
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(0);
+      expect(errors.length).toBe(0);
     });
 
     it('invalid value should return validation error', () => {
-      const validator = new TestBasePropertyValidator('prop', false, {});
+      const errors: ValidationError[] = [];
+      const validator = new TestBasePropertyValidator('prop', false, {}, errors);
       validator.custom((value) => {
         return value !== true
           ? {
@@ -86,10 +82,8 @@ describe('BasePropertyValidator', () => {
           : null;
       });
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('custom');
       expect(property).toBe('prop');
       expect(value).toBe('false');
@@ -102,8 +96,13 @@ class TestBasePropertyValidator<
   PropKey extends string,
   Context,
 > extends BasePropertyValidator<PropKey, boolean, Context> {
-  constructor(property: PropKey, value: boolean, context: Context) {
-    super(property, value, context);
+  constructor(
+    property: PropKey,
+    value: boolean,
+    context: Context,
+    validationerrors: ValidationError[],
+  ) {
+    super(property, value, context, validationerrors);
   }
 
   public isNull(

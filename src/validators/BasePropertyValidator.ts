@@ -6,15 +6,16 @@ export class BasePropertyValidator<PropKey extends string, Value, Context> {
   protected context: Context;
   protected validationErrors: ValidationError[];
 
-  constructor(property: PropKey, value: Value, context: Context) {
+  constructor(
+    property: PropKey,
+    value: Value,
+    context: Context,
+    validationErrors: ValidationError[],
+  ) {
     this.prop = property;
     this.value = value;
     this.context = context;
-    this.validationErrors = [];
-  }
-
-  public getValidationErrors(): ValidationError[] {
-    return [...this.validationErrors];
+    this.validationErrors = validationErrors;
   }
 
   protected getInvalidValueError(error: string): boolean {
@@ -56,10 +57,42 @@ export class BasePropertyValidator<PropKey extends string, Value, Context> {
     return this;
   }
 
+  // todo add in testing
+  protected isNotUndefined(
+    message?: string,
+  ): BasePropertyValidator<PropKey, Value, Context> {
+    if (this.value === undefined) {
+      this.validationErrors.push({
+        error: 'isUndefined',
+        property: this.prop,
+        value: JSON.stringify(this.value),
+        description: message ?? 'value should have been undefined',
+      });
+    }
+
+    return this;
+  }
+
   protected isNull(
     message?: string,
   ): BasePropertyValidator<PropKey, Value, Context> {
     if (this.value !== null) {
+      this.validationErrors.push({
+        error: 'isNull',
+        property: this.prop,
+        value: JSON.stringify(this.value),
+        description: message ?? 'value should have been null',
+      });
+    }
+
+    return this;
+  }
+
+  // todo add in testing
+  protected isNotNull(
+    message?: string,
+  ): BasePropertyValidator<PropKey, Value, Context> {
+    if (this.value === null) {
       this.validationErrors.push({
         error: 'isNull',
         property: this.prop,

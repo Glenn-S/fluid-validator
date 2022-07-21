@@ -1,19 +1,19 @@
-import { NumberPropertyValidator } from '../../src/validators';
+import { NumberPropertyValidator, ValidationError } from '../../src/validators';
 
 describe('NumberPropertyValidator', () => {
   describe('equal', () => {
     it('null value should generate invalid value validation error', () => {
+      const errors: ValidationError[] = [];
       const validator = new NumberPropertyValidator(
         'prop',
         null as unknown as number,
         {},
+        errors
       );
       validator.equal(3);
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('equal');
       expect(property).toBe('prop');
       expect(value).toBe('null');
@@ -23,17 +23,17 @@ describe('NumberPropertyValidator', () => {
     });
 
     it('undefined value should generate invalid value validation error', () => {
+      const errors: ValidationError[] = [];
       const validator = new NumberPropertyValidator(
         'prop',
         undefined as unknown as number,
         {},
+        errors
       );
       validator.equal(3);
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('equal');
       expect(property).toBe('prop');
       expect(value).toBe('undefined');
@@ -43,22 +43,20 @@ describe('NumberPropertyValidator', () => {
     });
 
     it('value equal to expected should not return validation error', () => {
-      const validator = new NumberPropertyValidator('prop', 12, {});
+      const errors: ValidationError[] = [];
+      const validator = new NumberPropertyValidator('prop', 12, {}, errors);
       validator.equal(12);
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(0);
+      expect(errors.length).toBe(0);
     });
 
     it('value not equal to expected should return validation error', () => {
-      const validator = new NumberPropertyValidator('prop', 12, {});
+      const errors: ValidationError[] = [];
+      const validator = new NumberPropertyValidator('prop', 12, {}, errors);
       validator.equal(11);
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('equal');
       expect(property).toBe('prop');
       expect(value).toBe('12');
@@ -68,17 +66,17 @@ describe('NumberPropertyValidator', () => {
 
   describe('greaterThan', () => {
     it('null value should generate invalid value validation error', () => {
+      const errors: ValidationError[] = [];
       const validator = new NumberPropertyValidator(
         'prop',
         null as unknown as number,
         {},
+        errors,
       );
       validator.greaterThan(3);
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('greaterThan');
       expect(property).toBe('prop');
       expect(value).toBe('null');
@@ -88,17 +86,17 @@ describe('NumberPropertyValidator', () => {
     });
 
     it('undefined value should generate invalid value validation error', () => {
+      const errors: ValidationError[] = [];
       const validator = new NumberPropertyValidator(
         'prop',
         undefined as unknown as number,
         {},
+        errors,
       );
       validator.greaterThan(3);
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('greaterThan');
       expect(property).toBe('prop');
       expect(value).toBe('undefined');
@@ -108,22 +106,20 @@ describe('NumberPropertyValidator', () => {
     });
 
     it('value greater than expected should not return validation error', () => {
-      const validator = new NumberPropertyValidator('prop', 12, {});
+      const errors: ValidationError[] = [];
+      const validator = new NumberPropertyValidator('prop', 12, {}, errors);
       validator.greaterThan(11);
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(0);
+      expect(errors.length).toBe(0);
     });
 
     it('value equal to expected should return validation error', () => {
-      const validator = new NumberPropertyValidator('prop', 12, {});
+      const errors: ValidationError[] = [];
+      const validator = new NumberPropertyValidator('prop', 12, {}, errors);
       validator.greaterThan(12);
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('greaterThan');
       expect(property).toBe('prop');
       expect(value).toBe('12');
@@ -131,13 +127,12 @@ describe('NumberPropertyValidator', () => {
     });
 
     it('value less than expected should return validation error', () => {
-      const validator = new NumberPropertyValidator('prop', 11, {});
+      const errors: ValidationError[] = [];
+      const validator = new NumberPropertyValidator('prop', 11, {}, errors);
       validator.greaterThan(12);
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('greaterThan');
       expect(property).toBe('prop');
       expect(value).toBe('11');
@@ -147,17 +142,17 @@ describe('NumberPropertyValidator', () => {
 
   describe('greaterThanOrEqual', () => {
     it('null value should generate invalid value validation error', () => {
+      const errors: ValidationError[] = [];
       const validator = new NumberPropertyValidator(
         'prop',
         null as unknown as number,
         {},
+        errors
       );
       validator.greaterThanOrEqual(3);
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('greaterThanOrEqual');
       expect(property).toBe('prop');
       expect(value).toBe('null');
@@ -167,17 +162,17 @@ describe('NumberPropertyValidator', () => {
     });
 
     it('undefined value should generate invalid value validation error', () => {
+      const errors: ValidationError[] = [];
       const validator = new NumberPropertyValidator(
         'prop',
         undefined as unknown as number,
         {},
+        errors,
       );
       validator.greaterThanOrEqual(3);
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('greaterThanOrEqual');
       expect(property).toBe('prop');
       expect(value).toBe('undefined');
@@ -187,31 +182,28 @@ describe('NumberPropertyValidator', () => {
     });
 
     it('value greater than expected should not return validation error', () => {
-      const validator = new NumberPropertyValidator('prop', 12, {});
+      const errors: ValidationError[] = [];
+      const validator = new NumberPropertyValidator('prop', 12, {}, errors);
       validator.greaterThanOrEqual(11);
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(0);
+      expect(errors.length).toBe(0);
     });
 
     it('value equal to expected should not return validation error', () => {
-      const validator = new NumberPropertyValidator('prop', 12, {});
+      const errors: ValidationError[] = [];
+      const validator = new NumberPropertyValidator('prop', 12, {}, errors);
       validator.greaterThanOrEqual(12);
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(0);
+      expect(errors.length).toBe(0);
     });
 
     it('value less than expected should return validation error', () => {
-      const validator = new NumberPropertyValidator('prop', 11, {});
+      const errors: ValidationError[] = [];
+      const validator = new NumberPropertyValidator('prop', 11, {}, errors);
       validator.greaterThanOrEqual(12);
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('greaterThanOrEqual');
       expect(property).toBe('prop');
       expect(value).toBe('11');
@@ -223,17 +215,17 @@ describe('NumberPropertyValidator', () => {
 
   describe('lessThan', () => {
     it('null value should generate invalid value validation error', () => {
+      const errors: ValidationError[] = [];
       const validator = new NumberPropertyValidator(
         'prop',
         null as unknown as number,
         {},
+        errors,
       );
       validator.lessThan(3);
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('lessThan');
       expect(property).toBe('prop');
       expect(value).toBe('null');
@@ -243,17 +235,17 @@ describe('NumberPropertyValidator', () => {
     });
 
     it('undefined value should generate invalid value validation error', () => {
+      const errors: ValidationError[] = [];
       const validator = new NumberPropertyValidator(
         'prop',
         undefined as unknown as number,
         {},
+        errors,
       );
       validator.lessThan(3);
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('lessThan');
       expect(property).toBe('prop');
       expect(value).toBe('undefined');
@@ -263,22 +255,20 @@ describe('NumberPropertyValidator', () => {
     });
 
     it('value less than expected should not return validation error', () => {
-      const validator = new NumberPropertyValidator('prop', 10, {});
+      const errors: ValidationError[] = [];
+      const validator = new NumberPropertyValidator('prop', 10, {}, errors);
       validator.lessThan(11);
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(0);
+      expect(errors.length).toBe(0);
     });
 
     it('value equal to expected should return validation error', () => {
-      const validator = new NumberPropertyValidator('prop', 12, {});
+      const errors: ValidationError[] = [];
+      const validator = new NumberPropertyValidator('prop', 12, {}, errors);
       validator.lessThan(12);
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('lessThan');
       expect(property).toBe('prop');
       expect(value).toBe('12');
@@ -286,13 +276,12 @@ describe('NumberPropertyValidator', () => {
     });
 
     it('value greater than expected should return validation error', () => {
-      const validator = new NumberPropertyValidator('prop', 13, {});
+      const errors: ValidationError[] = [];
+      const validator = new NumberPropertyValidator('prop', 13, {}, errors);
       validator.lessThan(12);
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('lessThan');
       expect(property).toBe('prop');
       expect(value).toBe('13');
@@ -302,17 +291,17 @@ describe('NumberPropertyValidator', () => {
 
   describe('lessThanOrEqual', () => {
     it('null value should generate invalid value validation error', () => {
+      const errors: ValidationError[] = [];
       const validator = new NumberPropertyValidator(
         'prop',
         null as unknown as number,
         {},
+        errors,
       );
       validator.lessThanOrEqual(3);
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('lessThanOrEqual');
       expect(property).toBe('prop');
       expect(value).toBe('null');
@@ -322,17 +311,17 @@ describe('NumberPropertyValidator', () => {
     });
 
     it('undefined value should generate invalid value validation error', () => {
+      const errors: ValidationError[] = [];
       const validator = new NumberPropertyValidator(
         'prop',
         undefined as unknown as number,
         {},
+        errors,
       );
       validator.lessThanOrEqual(3);
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('lessThanOrEqual');
       expect(property).toBe('prop');
       expect(value).toBe('undefined');
@@ -342,31 +331,28 @@ describe('NumberPropertyValidator', () => {
     });
 
     it('value less than expected should not return validation error', () => {
-      const validator = new NumberPropertyValidator('prop', 10, {});
+      const errors: ValidationError[] = [];
+      const validator = new NumberPropertyValidator('prop', 10, {}, errors);
       validator.lessThanOrEqual(11);
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(0);
+      expect(errors.length).toBe(0);
     });
 
     it('value equal to expected should not return validation error', () => {
-      const validator = new NumberPropertyValidator('prop', 12, {});
+      const errors: ValidationError[] = [];
+      const validator = new NumberPropertyValidator('prop', 12, {}, errors);
       validator.lessThanOrEqual(12);
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(0);
+      expect(errors.length).toBe(0);
     });
 
     it('value greater than expected should return validation error', () => {
-      const validator = new NumberPropertyValidator('prop', 13, {});
+      const errors: ValidationError[] = [];
+      const validator = new NumberPropertyValidator('prop', 13, {}, errors);
       validator.lessThanOrEqual(12);
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('lessThanOrEqual');
       expect(property).toBe('prop');
       expect(value).toBe('13');

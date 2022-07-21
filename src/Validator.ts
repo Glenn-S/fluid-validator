@@ -1,5 +1,4 @@
 import {
-  CommonProperty,
   PropertyValidator,
   PropertyValidatorFactory,
   ValidationError,
@@ -11,10 +10,12 @@ interface IValidate<Context> {
 }
 
 export class Validator<Context> {
-  private validations: ((context: Context) => ValidationError[])[];
+  private validators: ((context: Context) => void)[];
+  private validationErrors: ValidationError[];
 
   constructor() {
-    this.validations = [];
+    this.validators = [];
+    this.validationErrors = [];
   }
 
   public property<Key extends keyof Context & string>(
@@ -22,18 +23,14 @@ export class Validator<Context> {
     fn: (prop: PropertyValidator<Key, Context[Key], Context>) => void,
   ): Validator<Context> {
     const validation = (context: Context) => {
-      const propertyValidator = PropertyValidatorFactory.getPropertyValidator(
+      fn(PropertyValidatorFactory.getPropertyValidator(
         property,
         context[property],
         context,
-      );
-      fn(propertyValidator);
-      const errors = (
-        propertyValidator as CommonProperty
-      ).getValidationErrors();
-      return [...errors];
+        this.validationErrors,
+      ));
     };
-    this.validations.push(validation);
+    this.validators.push(validation);
 
     return this;
   }
@@ -43,17 +40,14 @@ export class Validator<Context> {
   }
 
   public validate(context: Context, throwOnError = false): ValidationResult {
-    const validationErrors: ValidationError[] = [];
-    this.validations.forEach((property) =>
-      validationErrors.push(...property(context)),
-    );
-
-    if (validationErrors.length > 0 && throwOnError) {
-      throw new Error(JSON.stringify(validationErrors));
+    this.validators.forEach((property) => property(context));
+    const errorCount = this.validationErrors.length;
+    if (errorCount > 0 && throwOnError) {
+      throw new Error(JSON.stringify(this.validationErrors));
     }
     return {
-      isValid: validationErrors.length === 0,
-      errors: validationErrors,
+      isValid: errorCount === 0,
+      errors: this.validationErrors,
     };
   }
 }

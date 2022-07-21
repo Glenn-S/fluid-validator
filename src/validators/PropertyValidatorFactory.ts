@@ -1,4 +1,4 @@
-import { PropertyValidator } from './types';
+import { PropertyValidator, ValidationError } from './types';
 import { ArrayPropertyValidator } from './ArrayPropertyValidator';
 import { BooleanPropertyValidator } from './BooleanPropertyValidator';
 import { NumberPropertyValidator } from './NumberPropertyValidator';
@@ -15,6 +15,7 @@ export class PropertyValidatorFactory {
     property: PropKey,
     value: Value,
     context: Context,
+    validationErrors: ValidationError[],
   ): PropertyValidator<PropKey, Value, Context> {
     switch (typeof value) {
       case 'string':
@@ -22,18 +23,21 @@ export class PropertyValidatorFactory {
           property,
           value as string,
           context,
+          validationErrors,
         ) as PropertyValidator<PropKey, Value, Context>;
       case 'number':
         return new NumberPropertyValidator(
           property,
           value as number,
           context,
+          validationErrors,
         ) as PropertyValidator<PropKey, Value, Context>;
       case 'boolean':
         return new BooleanPropertyValidator(
           property,
           value as boolean,
           context,
+          validationErrors,
         ) as PropertyValidator<PropKey, Value, Context>;
       case 'object':
         if (Array.isArray(value)) {
@@ -41,12 +45,14 @@ export class PropertyValidatorFactory {
             property,
             value as ArrayElem<typeof value>,
             context,
+            validationErrors,
           ) as PropertyValidator<PropKey, Value, Context>;
         } else {
           return new ObjectPropertyValidator(
             property,
             value as Value,
             context,
+            validationErrors,
           ) as PropertyValidator<PropKey, Value, Context>;
         }
       default:
@@ -54,6 +60,7 @@ export class PropertyValidatorFactory {
           property,
           value as Value,
           context,
+          validationErrors,
         ) as PropertyValidator<PropKey, Value, Context>;
     }
   }

@@ -1,4 +1,4 @@
-import { ObjectPropertyValidator } from '../../src/validators';
+import { ObjectPropertyValidator, ValidationError } from '../../src/validators';
 
 interface TestInterface {
   prop1: string;
@@ -17,17 +17,17 @@ describe('ObjectPropertyValidator', () => {
     };
 
     it('null value should generate invalid value validation error', () => {
+      const errors: ValidationError[] = [];
       const validator = new ObjectPropertyValidator(
         'prop',
         null as unknown as TestInterface,
         {},
+        errors
       );
       validator.property('prop1', (prop1) => prop1.maxLength(3));
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('property');
       expect(property).toBe('prop');
       expect(value).toBe('null');
@@ -37,17 +37,17 @@ describe('ObjectPropertyValidator', () => {
     });
 
     it('undefined value should generate invalid value validation error', () => {
+      const errors: ValidationError[] = [];
       const validator = new ObjectPropertyValidator(
         'prop',
         undefined as unknown as TestInterface,
         {},
+        errors,
       );
       validator.property('prop1', (prop1) => prop1.maxLength(3));
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('property');
       expect(property).toBe('prop');
       expect(value).toBe('undefined');
@@ -57,22 +57,20 @@ describe('ObjectPropertyValidator', () => {
     });
 
     it('valid property validation should not return validation error', () => {
-      const validator = new ObjectPropertyValidator('prop', testObject, {});
+      const errors: ValidationError[] = [];
+      const validator = new ObjectPropertyValidator('prop', testObject, {}, errors);
       validator.property('prop1', (prop1) => prop1.maxLength(4));
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(0);
+      expect(errors.length).toBe(0);
     });
 
     it('invalid property validation should return validation error', () => {
-      const validator = new ObjectPropertyValidator('prop', testObject, {});
+      const errors: ValidationError[] = [];
+      const validator = new ObjectPropertyValidator('prop', testObject, {}, errors);
       validator.property('prop1', (prop1) => prop1.maxLength(3));
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('maxLength');
       expect(property).toBe('prop.prop1');
       expect(value).toBe('abcd');
@@ -82,15 +80,14 @@ describe('ObjectPropertyValidator', () => {
     });
 
     it('invalid nested property validation should return validation error', () => {
-      const validator = new ObjectPropertyValidator('prop', testObject, {});
+      const errors: ValidationError[] = [];
+      const validator = new ObjectPropertyValidator('prop', testObject, {}, errors);
       validator.property('prop2', (prop2) => {
         prop2.property('innerProp', (innerProp) => innerProp.maxLength(3));
       });
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('maxLength');
       expect(property).toBe('prop.prop2.innerProp');
       expect(value).toBe('inner');

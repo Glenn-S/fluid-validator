@@ -13,8 +13,13 @@ export class UnknownPropertyValidator<
   Value,
   Context,
 > extends BasePropertyValidator<PropKey, Value, Context> {
-  constructor(property: PropKey, value: Value, context: Context) {
-    super(property, value, context);
+  constructor(
+    property: PropKey,
+    value: Value,
+    context: Context,
+    validationErrors: ValidationError[],
+  ) {
+    super(property, value, context, validationErrors);
   }
 
   public isNull(

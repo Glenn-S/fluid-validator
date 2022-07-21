@@ -1,19 +1,19 @@
-import { ArrayPropertyValidator } from '../../src/validators';
+import { ArrayPropertyValidator, ValidationError } from '../../src/validators';
 
 describe('ArrayPropertyValidator', () => {
   describe('isEmpty', () => {
     it('null value should generate invalid value validation error', () => {
+      const errors: ValidationError[] = [];
       const validator = new ArrayPropertyValidator(
         'prop',
         null as unknown as string[],
         {},
+        errors,
       );
       validator.isEmpty();
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('isEmpty');
       expect(property).toBe('prop');
       expect(value).toBe('null');
@@ -23,17 +23,17 @@ describe('ArrayPropertyValidator', () => {
     });
 
     it('undefined value should generate invalid value validation error', () => {
+      const errors: ValidationError[] = [];
       const validator = new ArrayPropertyValidator(
         'prop',
         undefined as unknown as string[],
         {},
+        errors,
       );
       validator.isEmpty();
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('isEmpty');
       expect(property).toBe('prop');
       expect(value).toBe('undefined');
@@ -43,26 +43,25 @@ describe('ArrayPropertyValidator', () => {
     });
 
     it('empty array should return no validation errors', () => {
-      const validator = new ArrayPropertyValidator('prop', [] as string[], {});
+      const errors: ValidationError[] = [];
+      const validator = new ArrayPropertyValidator('prop', [] as string[], {}, errors);
       validator.isEmpty();
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(0);
+      expect(errors.length).toBe(0);
     });
 
     it('non-empty array should return validation error', () => {
+      const errors: ValidationError[] = [];
       const validator = new ArrayPropertyValidator(
         'prop',
         ['abc'] as string[],
         {},
+        errors,
       );
       validator.isEmpty();
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('isEmpty');
       expect(property).toBe('prop');
       expect(value).toBe('["abc"]');
@@ -72,17 +71,17 @@ describe('ArrayPropertyValidator', () => {
 
   describe('forEach', () => {
     it('null value should generate invalid value validation error', () => {
+      const errors: ValidationError[] = [];
       const validator = new ArrayPropertyValidator(
         'prop',
         null as unknown as string[],
         {},
+        errors,
       );
       validator.forEach((e) => e.maxLength(2));
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('forEach');
       expect(property).toBe('prop');
       expect(value).toBe('null');
@@ -92,17 +91,17 @@ describe('ArrayPropertyValidator', () => {
     });
 
     it('undefined value should generate invalid value validation error', () => {
+      const errors: ValidationError[] = [];
       const validator = new ArrayPropertyValidator(
         'prop',
         undefined as unknown as string[],
         {},
+        errors,
       );
       validator.forEach((e) => e.maxLength(2));
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('forEach');
       expect(property).toBe('prop');
       expect(value).toBe('undefined');
@@ -112,30 +111,30 @@ describe('ArrayPropertyValidator', () => {
     });
 
     it('all array elements match validation should return no validation errors', () => {
+      const errors: ValidationError[] = [];
       const validator = new ArrayPropertyValidator(
         'prop',
         ['ab', 'bc', 'mt'],
         {},
+        errors,
       );
       validator.forEach((e) => e.maxLength(2));
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(0);
+      expect(errors.length).toBe(0);
     });
 
     it('non-empty array should return validation error', () => {
+      const errors: ValidationError[] = [];
       const validator = new ArrayPropertyValidator(
         'prop',
         ['ab', 'bcd', 'mt'],
         {},
+        errors,
       );
       validator.forEach((e) => e.maxLength(2));
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(1);
-      const { error, property, value, description } = result[0];
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
       expect(error).toBe('forEach');
       expect(property).toBe('prop');
       expect(value).toBe('["ab","bcd","mt"]');
@@ -145,12 +144,11 @@ describe('ArrayPropertyValidator', () => {
     });
 
     it('empty array should not return validation error', () => {
-      const validator = new ArrayPropertyValidator('prop', [] as string[], {});
+      const errors: ValidationError[] = [];
+      const validator = new ArrayPropertyValidator('prop', [] as string[], {}, errors);
       validator.forEach((e) => e.maxLength(2));
 
-      const result = validator.getValidationErrors();
-
-      expect(result.length).toBe(0);
+      expect(errors.length).toBe(0);
     });
   });
 });
