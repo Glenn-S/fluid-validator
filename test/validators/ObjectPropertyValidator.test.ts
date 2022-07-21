@@ -22,7 +22,7 @@ describe('ObjectPropertyValidator', () => {
         'prop',
         null as unknown as TestInterface,
         {},
-        errors
+        errors,
       );
       validator.property('prop1', (prop1) => prop1.maxLength(3));
 
@@ -58,7 +58,12 @@ describe('ObjectPropertyValidator', () => {
 
     it('valid property validation should not return validation error', () => {
       const errors: ValidationError[] = [];
-      const validator = new ObjectPropertyValidator('prop', testObject, {}, errors);
+      const validator = new ObjectPropertyValidator(
+        'prop',
+        testObject,
+        {},
+        errors,
+      );
       validator.property('prop1', (prop1) => prop1.maxLength(4));
 
       expect(errors.length).toBe(0);
@@ -66,7 +71,12 @@ describe('ObjectPropertyValidator', () => {
 
     it('invalid property validation should return validation error', () => {
       const errors: ValidationError[] = [];
-      const validator = new ObjectPropertyValidator('prop', testObject, {}, errors);
+      const validator = new ObjectPropertyValidator(
+        'prop',
+        testObject,
+        {},
+        errors,
+      );
       validator.property('prop1', (prop1) => prop1.maxLength(3));
 
       expect(errors.length).toBe(1);
@@ -81,7 +91,12 @@ describe('ObjectPropertyValidator', () => {
 
     it('invalid nested property validation should return validation error', () => {
       const errors: ValidationError[] = [];
-      const validator = new ObjectPropertyValidator('prop', testObject, {}, errors);
+      const validator = new ObjectPropertyValidator(
+        'prop',
+        testObject,
+        {},
+        errors,
+      );
       validator.property('prop2', (prop2) => {
         prop2.property('innerProp', (innerProp) => innerProp.maxLength(3));
       });

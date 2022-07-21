@@ -44,7 +44,12 @@ describe('ArrayPropertyValidator', () => {
 
     it('empty array should return no validation errors', () => {
       const errors: ValidationError[] = [];
-      const validator = new ArrayPropertyValidator('prop', [] as string[], {}, errors);
+      const validator = new ArrayPropertyValidator(
+        'prop',
+        [] as string[],
+        {},
+        errors,
+      );
       validator.isEmpty();
 
       expect(errors.length).toBe(0);
@@ -145,7 +150,12 @@ describe('ArrayPropertyValidator', () => {
 
     it('empty array should not return validation error', () => {
       const errors: ValidationError[] = [];
-      const validator = new ArrayPropertyValidator('prop', [] as string[], {}, errors);
+      const validator = new ArrayPropertyValidator(
+        'prop',
+        [] as string[],
+        {},
+        errors,
+      );
       validator.forEach((e) => e.maxLength(2));
 
       expect(errors.length).toBe(0);

@@ -1,4 +1,7 @@
-import { BooleanPropertyValidator, ValidationError } from '../../src/validators';
+import {
+  BooleanPropertyValidator,
+  ValidationError,
+} from '../../src/validators';
 
 describe('BooleanPropertyValidator', () => {
   describe('isTrue', () => {
@@ -8,7 +11,7 @@ describe('BooleanPropertyValidator', () => {
         'prop',
         null as unknown as boolean,
         {},
-        errors
+        errors,
       );
       validator.isTrue();
 

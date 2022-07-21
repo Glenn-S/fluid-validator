@@ -8,7 +8,7 @@ describe('NumberPropertyValidator', () => {
         'prop',
         null as unknown as number,
         {},
-        errors
+        errors,
       );
       validator.equal(3);
 
@@ -28,7 +28,7 @@ describe('NumberPropertyValidator', () => {
         'prop',
         undefined as unknown as number,
         {},
-        errors
+        errors,
       );
       validator.equal(3);
 
@@ -147,7 +147,7 @@ describe('NumberPropertyValidator', () => {
         'prop',
         null as unknown as number,
         {},
-        errors
+        errors,
       );
       validator.greaterThanOrEqual(3);
 

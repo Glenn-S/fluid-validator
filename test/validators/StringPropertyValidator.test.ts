@@ -117,7 +117,12 @@ describe('StringPropertyValidator', () => {
 
     it('value greater than min length should not return validation error', () => {
       const errors: ValidationError[] = [];
-      const validator = new StringPropertyValidator('prop', 'abcde', {}, errors);
+      const validator = new StringPropertyValidator(
+        'prop',
+        'abcde',
+        {},
+        errors,
+      );
       validator.minLength(4);
 
       expect(errors.length).toBe(0);
@@ -190,7 +195,12 @@ describe('StringPropertyValidator', () => {
 
     it('valid regeular expression match should not return validation error', () => {
       const errors: ValidationError[] = [];
-      const validator = new StringPropertyValidator('prop', 'abcabcabc', {}, errors);
+      const validator = new StringPropertyValidator(
+        'prop',
+        'abcabcabc',
+        {},
+        errors,
+      );
       validator.regex(new RegExp(/^(abc)*$/g));
 
       expect(errors.length).toBe(0);
@@ -198,7 +208,12 @@ describe('StringPropertyValidator', () => {
 
     it('valid regeular expression with no match should return validation error', () => {
       const errors: ValidationError[] = [];
-      const validator = new StringPropertyValidator('prop', 'abcabcabc', {}, errors);
+      const validator = new StringPropertyValidator(
+        'prop',
+        'abcabcabc',
+        {},
+        errors,
+      );
       validator.regex(new RegExp(/^(abcd)*$/g));
 
       expect(errors.length).toBe(1);

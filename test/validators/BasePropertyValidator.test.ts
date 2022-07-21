@@ -6,7 +6,12 @@ describe('BasePropertyValidator', () => {
     it('value of null should return no validation error', () => {
       const errors: ValidationError[] = [];
       const testValue: boolean = null as unknown as boolean;
-      const validator = new TestBasePropertyValidator('prop', testValue, {}, errors);
+      const validator = new TestBasePropertyValidator(
+        'prop',
+        testValue,
+        {},
+        errors,
+      );
       validator.isNull();
 
       expect(errors.length).toBe(0);
@@ -14,7 +19,12 @@ describe('BasePropertyValidator', () => {
 
     it('value not null should return validation error', () => {
       const errors: ValidationError[] = [];
-      const validator = new TestBasePropertyValidator('prop', false, {}, errors);
+      const validator = new TestBasePropertyValidator(
+        'prop',
+        false,
+        {},
+        errors,
+      );
       validator.isNull();
 
       expect(errors.length).toBe(1);
@@ -30,7 +40,12 @@ describe('BasePropertyValidator', () => {
     it('value not null should return validation error', () => {
       const errors: ValidationError[] = [];
       const testValue: boolean = null as unknown as boolean;
-      const validator = new TestBasePropertyValidator('prop', testValue, {}, errors);
+      const validator = new TestBasePropertyValidator(
+        'prop',
+        testValue,
+        {},
+        errors,
+      );
       validator.isNotNull();
 
       expect(errors.length).toBe(1);
@@ -44,7 +59,12 @@ describe('BasePropertyValidator', () => {
     it('value of null should not return validation error', () => {
       const errors: ValidationError[] = [];
       const testValue: boolean = null as unknown as boolean;
-      const validator = new TestBasePropertyValidator('prop', false, {}, errors);
+      const validator = new TestBasePropertyValidator(
+        'prop',
+        false,
+        {},
+        errors,
+      );
       validator.isNotNull();
 
       expect(errors.length).toBe(0);
@@ -55,7 +75,12 @@ describe('BasePropertyValidator', () => {
     it('value of undefined should return no validation error', () => {
       const errors: ValidationError[] = [];
       const testValue: boolean = undefined as unknown as boolean;
-      const validator = new TestBasePropertyValidator('prop', testValue, {}, errors);
+      const validator = new TestBasePropertyValidator(
+        'prop',
+        testValue,
+        {},
+        errors,
+      );
       validator.isUndefined();
 
       expect(errors.length).toBe(0);
@@ -79,7 +104,12 @@ describe('BasePropertyValidator', () => {
     it('value not undefined should return validation error', () => {
       const errors: ValidationError[] = [];
       const testValue: boolean = undefined as unknown as boolean;
-      const validator = new TestBasePropertyValidator('prop', testValue, {}, errors);
+      const validator = new TestBasePropertyValidator(
+        'prop',
+        testValue,
+        {},
+        errors,
+      );
       validator.isNotUndefined();
 
       expect(errors.length).toBe(1);
@@ -102,7 +132,12 @@ describe('BasePropertyValidator', () => {
   describe('custom', () => {
     it('valid value should not return validation error', () => {
       const errors: ValidationError[] = [];
-      const validator = new TestBasePropertyValidator('prop', false, {}, errors);
+      const validator = new TestBasePropertyValidator(
+        'prop',
+        false,
+        {},
+        errors,
+      );
       validator.custom((value) => {
         return value === true
           ? {
@@ -119,7 +154,12 @@ describe('BasePropertyValidator', () => {
 
     it('invalid value should return validation error', () => {
       const errors: ValidationError[] = [];
-      const validator = new TestBasePropertyValidator('prop', false, {}, errors);
+      const validator = new TestBasePropertyValidator(
+        'prop',
+        false,
+        {},
+        errors,
+      );
       validator.custom((value) => {
         return value !== true
           ? {
