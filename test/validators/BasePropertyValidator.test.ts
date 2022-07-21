@@ -26,6 +26,31 @@ describe('BasePropertyValidator', () => {
     });
   });
 
+  describe('isNotNull', () => {
+    it('value not null should return validation error', () => {
+      const errors: ValidationError[] = [];
+      const testValue: boolean = null as unknown as boolean;
+      const validator = new TestBasePropertyValidator('prop', testValue, {}, errors);
+      validator.isNotNull();
+
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
+      expect(error).toBe('isNotNull');
+      expect(property).toBe('prop');
+      expect(value).toBe('null');
+      expect(description).toBe('value should not have been null');
+    });
+
+    it('value of null should not return validation error', () => {
+      const errors: ValidationError[] = [];
+      const testValue: boolean = null as unknown as boolean;
+      const validator = new TestBasePropertyValidator('prop', false, {}, errors);
+      validator.isNotNull();
+
+      expect(errors.length).toBe(0);
+    });
+  });
+
   describe('isUndefined', () => {
     it('value of undefined should return no validation error', () => {
       const errors: ValidationError[] = [];
@@ -47,6 +72,30 @@ describe('BasePropertyValidator', () => {
       expect(property).toBe('prop');
       expect(value).toBe('true');
       expect(description).toBe('value should have been undefined');
+    });
+  });
+
+  describe('isNotUndefined', () => {
+    it('value not undefined should return validation error', () => {
+      const errors: ValidationError[] = [];
+      const testValue: boolean = undefined as unknown as boolean;
+      const validator = new TestBasePropertyValidator('prop', testValue, {}, errors);
+      validator.isNotUndefined();
+
+      expect(errors.length).toBe(1);
+      const { error, property, value, description } = errors[0];
+      expect(error).toBe('isNotUndefined');
+      expect(property).toBe('prop');
+      expect(value).toBe('undefined');
+      expect(description).toBe('value should not have been undefined');
+    });
+
+    it('value of undefined should not return validation error', () => {
+      const errors: ValidationError[] = [];
+      const validator = new TestBasePropertyValidator('prop', true, {}, errors);
+      validator.isNotUndefined();
+
+      expect(errors.length).toBe(0);
     });
   });
 
@@ -109,6 +158,20 @@ class TestBasePropertyValidator<
     message?: string | undefined,
   ): TestBasePropertyValidator<PropKey, Context> {
     super.isNull(message);
+    return this;
+  }
+
+  public isNotUndefined(
+    message?: string | undefined,
+  ): TestBasePropertyValidator<PropKey, Context> {
+    super.isNotUndefined(message);
+    return this;
+  }
+
+  public isNotNull(
+    message?: string | undefined,
+  ): TestBasePropertyValidator<PropKey, Context> {
+    super.isNotNull(message);
     return this;
   }
 

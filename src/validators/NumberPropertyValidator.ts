@@ -161,6 +161,20 @@ export class NumberPropertyValidator<
     return this;
   }
 
+  public isNotUndefined(
+    message?: string | undefined,
+  ): NumberPropertyValidator<PropKey, Context> {
+    super.isNotUndefined(message);
+    return this;
+  }
+
+  public isNotNull(
+    message?: string | undefined,
+  ): NumberPropertyValidator<PropKey, Context> {
+    super.isNotNull(message);
+    return this;
+  }
+
   public custom(
     customValidator: (
       value: number | undefined,

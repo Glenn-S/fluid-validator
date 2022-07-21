@@ -36,6 +36,20 @@ export class UnknownPropertyValidator<
     return this;
   }
 
+  public isNotUndefined(
+    message?: string | undefined,
+  ): UnknownPropertyValidator<PropKey, Value, Context> {
+    super.isNotUndefined(message);
+    return this;
+  }
+
+  public isNotNull(
+    message?: string | undefined,
+  ): UnknownPropertyValidator<PropKey, Value, Context> {
+    super.isNotNull(message);
+    return this;
+  }
+
   public custom(
     customValidator: (
       value: Value | undefined,

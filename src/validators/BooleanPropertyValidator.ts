@@ -68,6 +68,20 @@ export class BooleanPropertyValidator<
     return this;
   }
 
+  public isNotUndefined(
+    message?: string | undefined,
+  ): BooleanPropertyValidator<PropKey, Context> {
+    super.isNotUndefined(message);
+    return this;
+  }
+
+  public isNotNull(
+    message?: string | undefined,
+  ): BooleanPropertyValidator<PropKey, Context> {
+    super.isNotNull(message);
+    return this;
+  }
+
   public custom(
     customValidator: (
       value: boolean | undefined,

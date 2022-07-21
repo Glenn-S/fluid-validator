@@ -62,6 +62,20 @@ export class ObjectPropertyValidator<
     return this;
   }
 
+  public isNotUndefined(
+    message?: string | undefined,
+  ): ObjectPropertyValidator<PropKey, Value, Context> {
+    super.isNotUndefined(message);
+    return this;
+  }
+
+  public isNotNull(
+    message?: string | undefined,
+  ): ObjectPropertyValidator<PropKey, Value, Context> {
+    super.isNotNull(message);
+    return this;
+  }
+
   public custom(
     customValidator: (
       value: Value | undefined,

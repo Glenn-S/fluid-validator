@@ -29,8 +29,8 @@ export class ArrayPropertyValidator<
     super(property, value, context, validationErrors);
   }
 
-  // todo add in testing
-  public minLength(
+  // todo add in testing before releasing
+  private minLength(
     value: number,
     message?: string,
   ) {
@@ -50,8 +50,8 @@ export class ArrayPropertyValidator<
     return this;
   }
 
-  // todo add in testing
-  public maxLength(
+  // todo add in testing before releasing
+  private maxLength(
     value: number,
     message?: string,
   ) {
@@ -128,6 +128,20 @@ export class ArrayPropertyValidator<
     message?: string | undefined,
   ): ArrayPropertyValidator<PropKey, ElemType, Value, Context> {
     super.isNull(message);
+    return this;
+  }
+
+  public isNotUndefined(
+    message?: string | undefined,
+  ): ArrayPropertyValidator<PropKey, ElemType, Value, Context> {
+    super.isNotUndefined(message);
+    return this;
+  }
+
+  public isNotNull(
+    message?: string | undefined,
+  ): ArrayPropertyValidator<PropKey, ElemType, Value, Context> {
+    super.isNotNull(message);
     return this;
   }
 

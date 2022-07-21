@@ -99,6 +99,20 @@ export class StringPropertyValidator<
     return this;
   }
 
+  public isNotUndefined(
+    message?: string | undefined,
+  ): StringPropertyValidator<PropKey, Context> {
+    super.isNotUndefined(message);
+    return this;
+  }
+
+  public isNotNull(
+    message?: string | undefined,
+  ): StringPropertyValidator<PropKey, Context> {
+    super.isNotNull(message);
+    return this;
+  }
+
   public custom(
     customValidator: (
       value: string | undefined,

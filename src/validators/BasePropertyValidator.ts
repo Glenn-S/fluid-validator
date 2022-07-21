@@ -57,16 +57,15 @@ export class BasePropertyValidator<PropKey extends string, Value, Context> {
     return this;
   }
 
-  // todo add in testing
   protected isNotUndefined(
     message?: string,
   ): BasePropertyValidator<PropKey, Value, Context> {
     if (this.value === undefined) {
       this.validationErrors.push({
-        error: 'isUndefined',
+        error: 'isNotUndefined',
         property: this.prop,
-        value: JSON.stringify(this.value),
-        description: message ?? 'value should have been undefined',
+        value: 'undefined',
+        description: message ?? 'value should not have been undefined',
       });
     }
 
@@ -88,16 +87,15 @@ export class BasePropertyValidator<PropKey extends string, Value, Context> {
     return this;
   }
 
-  // todo add in testing
   protected isNotNull(
     message?: string,
   ): BasePropertyValidator<PropKey, Value, Context> {
     if (this.value === null) {
       this.validationErrors.push({
-        error: 'isNull',
+        error: 'isNotNull',
         property: this.prop,
-        value: JSON.stringify(this.value),
-        description: message ?? 'value should have been null',
+        value: 'null',
+        description: message ?? 'value should not have been null',
       });
     }
 
