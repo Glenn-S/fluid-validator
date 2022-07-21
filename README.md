@@ -22,11 +22,19 @@ interface User {
   age: number;
 }
 
-const userValidator = (user: User) => new Validator<User>()
+const user: User = {
+  firstName: 'hello',
+  lastName: 'world',
+  age: 28,
+};
+
+const userValidator = new Validator<User>()
   .property('firstName', (firstName) => firstName.maxLength(30).minLength())
   .property('lastName', (lastName) => lastName.isUndefined())
   .property('age', (age) => age.greaterThanOrEqual(18))
   .build();
+
+const result = userValidator.validate(user);
 ```
 
 #### Validator Methods
@@ -80,11 +88,25 @@ Checks if a properties value is null.
 prop.isNull('property was not null');
 ```
 ----------
+`isNotNull(message?: string)`
+<br>
+Checks if a properties value is not null.
+```code
+prop.isNotNull('property was null');
+```
+----------
 `isUndefined(message?: string)`
 <br>
 Checks if a properties value is undefined.
 ```code
 prop.isUndefined('property was not undefined');
+```
+----------
+`isNotUndefined(message?: string)`
+<br>
+Checks if a properties value is not undefined.
+```code
+prop.isNotUndefined('property was undefined');
 ```
 ----------
 `isCustom((propertyValue: T, context: U) => ValidationError | null)`
