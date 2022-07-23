@@ -23,14 +23,13 @@ export class Validator<Context> {
     fn: (prop: PropertyValidator<Key, Context[Key], Context>) => void,
   ): Validator<Context> {
     const validation = (context: Context) => {
-      fn(
-        PropertyValidatorFactory.getPropertyValidator(
-          property,
-          context[property],
-          context,
-          this.validationErrors,
-        ),
-      );
+      const validator = PropertyValidatorFactory.getPropertyValidator(
+        property,
+        context[property],
+        context,
+        this.validationErrors,
+      )
+      fn(validator);
     };
     this.validators.push(validation);
 

@@ -67,4 +67,94 @@ describe('Validator', () => {
 
     expect(result).toThrow();
   });
+
+  describe('types', () => {
+    it('string should call StringPropertyValidator', () => {
+      const testData = 'test';
+
+      const result = new Validator<{prop: string}>()
+        .property('prop', (prop) => prop.maxLength(3))
+        .validate({prop: testData}); 
+      expect(result.isValid).toBe(false);
+      expect(result.errors[0].property).toBe('prop');
+      expect(result.errors[0].error).toBe('maxLength');
+    });
+
+    it('boolean should call BooleanPropertyValidator', () => {
+      const testData = false;
+
+      const result = new Validator<{prop: boolean}>()
+        .property('prop', (prop) => prop.isTrue())
+        .validate({prop: testData}); 
+      expect(result.isValid).toBe(false);
+      expect(result.errors[0].property).toBe('prop');
+      expect(result.errors[0].error).toBe('isTrue');
+    });
+
+    it('number should call NumberPropertyValidator', () => {
+      const testData = 123;
+
+      const result = new Validator<{prop: number}>()
+        .property('prop', (prop) => prop.equal(124))
+        .validate({prop: testData}); 
+      expect(result.isValid).toBe(false);
+      expect(result.errors[0].property).toBe('prop');
+      expect(result.errors[0].error).toBe('equal');
+    });
+
+    it('date should call DatePropertyValidator', () => {
+      const testData = new Date(2022, 6, 23);
+
+      const result = new Validator<{prop: Date}>()
+        .property('prop', (prop) => prop.equalDate(new Date(2022, 6, 24)))
+        .validate({prop: testData}); 
+      expect(result.isValid).toBe(false);
+      expect(result.errors[0].property).toBe('prop');
+      expect(result.errors[0].error).toBe('equalDate');
+    });
+
+    it('object should call ObjectPropertyValidator', () => {
+      const testData = {innerProp: 123};
+
+      const result = new Validator<{prop: {innerProp: number}}>()
+        .property('prop', (prop) => prop.property('innerProp', (innerProp) => innerProp.equal(124)))
+        .validate({prop: testData}); 
+      expect(result.isValid).toBe(false);
+      expect(result.errors[0].property).toBe('prop.innerProp');
+      expect(result.errors[0].error).toBe('equal');
+    });
+
+    it('array should call ArrayPropertyValidator', () => {
+      const testData = [1, 2, 3];
+
+      const result = new Validator<{prop: number[]}>()
+        .property('prop', (prop) => prop.isEmpty())
+        .validate({prop: testData}); 
+      expect(result.isValid).toBe(false);
+      expect(result.errors[0].property).toBe('prop');
+      expect(result.errors[0].error).toBe('isEmpty');
+    });
+
+    it('unknown should call UnknownPropertyValidator', () => {
+      const testData = 123;
+
+      const result = new Validator<{prop: unknown}>()
+        .property('prop', (prop) => prop.isNull())
+        .validate({prop: testData}); 
+      expect(result.isValid).toBe(false);
+      expect(result.errors[0].property).toBe('prop');
+      expect(result.errors[0].error).toBe('isNull');
+    });
+
+    it('any should call UnknownPropertyValidator', () => {
+      const testData = 123;
+
+      const result = new Validator<{prop: any}>()
+        .property('prop', (prop) => prop.isUndefined())
+        .validate({prop: testData}); 
+      expect(result.isValid).toBe(false);
+      expect(result.errors[0].property).toBe('prop');
+      expect(result.errors[0].error).toBe('isUndefined');
+    });
+  });
 });
