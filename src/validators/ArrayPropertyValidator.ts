@@ -25,37 +25,37 @@ export class ArrayPropertyValidator<
     super(property, value, context, validationErrors);
   }
 
-  // todo add in testing before releasing
-  private minLength(value: number, message?: string) {
+  public minLength(value: number, message?: string) {
     if (this.value === undefined || this.value === null) {
-      this.getInvalidValueError('isEmpty');
+      this.getInvalidValueError('minLength');
       return this;
     }
 
     if (this.value.length < value) {
       this.validationErrors.push({
-        error: 'isEmpty',
+        error: 'minLength',
         property: this.prop,
         value: JSON.stringify(this.value),
-        description: message ?? `array should have been empty`,
+        description: 
+          message ?? `value should have been no less than '${value}' elements in length`,
       });
     }
     return this;
   }
 
-  // todo add in testing before releasing
-  private maxLength(value: number, message?: string) {
+  public maxLength(value: number, message?: string) {
     if (this.value === undefined || this.value === null) {
-      this.getInvalidValueError('isEmpty');
+      this.getInvalidValueError('maxLength');
       return this;
     }
 
     if (this.value.length > value) {
       this.validationErrors.push({
-        error: 'isEmpty',
+        error: 'maxLength',
         property: this.prop,
         value: JSON.stringify(this.value),
-        description: message ?? `array should have been empty`,
+        description: 
+          message ?? `value should have been no more than '${value}' elements in length`,
       });
     }
     return this;
