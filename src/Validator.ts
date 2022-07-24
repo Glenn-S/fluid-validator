@@ -1,9 +1,8 @@
 import {
-  PropertyValidator,
-  PropertyValidatorFactory,
   ValidationError,
   ValidationResult,
 } from './validators';
+import { InnerValidator } from './validators/InnerValidator';
 
 interface IValidate<Context> {
   validate(context: Context, throwOnError?: boolean): ValidationResult;
@@ -20,16 +19,15 @@ export class Validator<Context> {
 
   public property<Key extends keyof Context & string>(
     property: Key,
-    fn: (prop: PropertyValidator<Key, Context[Key], Context>) => void,
+    fn: (prop: InnerValidator<Key, Context[Key], Context>) => void,
   ): Validator<Context> {
     const validation = (context: Context) => {
-      const validator = PropertyValidatorFactory.getPropertyValidator(
+      fn(InnerValidator.getValidator(
         property,
         context[property],
         context,
         this.validationErrors,
-      )
-      fn(validator);
+      ));
     };
     this.validators.push(validation);
 

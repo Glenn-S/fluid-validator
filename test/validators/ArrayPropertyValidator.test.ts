@@ -83,7 +83,7 @@ describe('ArrayPropertyValidator', () => {
         {},
         errors,
       );
-      validator.forEach((e) => e.maxLength(2));
+      validator.forEach((e) => e.string.maxLength(2));
 
       expect(errors.length).toBe(1);
       const { error, property, value, description } = errors[0];
@@ -103,7 +103,7 @@ describe('ArrayPropertyValidator', () => {
         {},
         errors,
       );
-      validator.forEach((e) => e.maxLength(2));
+      validator.forEach((e) => e.string.maxLength(2));
 
       expect(errors.length).toBe(1);
       const { error, property, value, description } = errors[0];
@@ -123,7 +123,7 @@ describe('ArrayPropertyValidator', () => {
         {},
         errors,
       );
-      validator.forEach((e) => e.maxLength(2));
+      validator.forEach((e) => e.string.maxLength(2));
 
       expect(errors.length).toBe(0);
     });
@@ -136,7 +136,7 @@ describe('ArrayPropertyValidator', () => {
         {},
         errors,
       );
-      validator.forEach((e) => e.maxLength(2));
+      validator.forEach((e) => e.string.maxLength(2));
 
       expect(errors.length).toBe(1);
       const { error, property, value, description } = errors[0];
@@ -156,7 +156,7 @@ describe('ArrayPropertyValidator', () => {
         {},
         errors,
       );
-      validator.forEach((e) => e.maxLength(2));
+      validator.forEach((e) => e.string.maxLength(2));
 
       expect(errors.length).toBe(0);
     });

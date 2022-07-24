@@ -4,4 +4,4 @@ export * from './BooleanPropertyValidator';
 export * from './NumberPropertyValidator';
 export * from './ObjectPropertyValidator';
 export * from './StringPropertyValidator';
-export * from './PropertyValidatorFactory';
+export * from './InnerValidator';

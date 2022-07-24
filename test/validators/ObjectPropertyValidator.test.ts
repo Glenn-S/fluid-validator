@@ -24,7 +24,7 @@ describe('ObjectPropertyValidator', () => {
         {},
         errors,
       );
-      validator.property('prop1', (prop1) => prop1.maxLength(3));
+      validator.property('prop1', (prop1) => prop1.string.maxLength(3));
 
       expect(errors.length).toBe(1);
       const { error, property, value, description } = errors[0];
@@ -44,7 +44,7 @@ describe('ObjectPropertyValidator', () => {
         {},
         errors,
       );
-      validator.property('prop1', (prop1) => prop1.maxLength(3));
+      validator.property('prop1', (prop1) => prop1.string.maxLength(3));
 
       expect(errors.length).toBe(1);
       const { error, property, value, description } = errors[0];
@@ -64,7 +64,7 @@ describe('ObjectPropertyValidator', () => {
         {},
         errors,
       );
-      validator.property('prop1', (prop1) => prop1.maxLength(4));
+      validator.property('prop1', (prop1) => prop1.string.maxLength(4));
 
       expect(errors.length).toBe(0);
     });
@@ -77,7 +77,7 @@ describe('ObjectPropertyValidator', () => {
         {},
         errors,
       );
-      validator.property('prop1', (prop1) => prop1.maxLength(3));
+      validator.property('prop1', (prop1) => prop1.string.maxLength(3));
 
       expect(errors.length).toBe(1);
       const { error, property, value, description } = errors[0];
@@ -98,7 +98,7 @@ describe('ObjectPropertyValidator', () => {
         errors,
       );
       validator.property('prop2', (prop2) => {
-        prop2.property('innerProp', (innerProp) => innerProp.maxLength(3));
+        prop2.object.property('innerProp', (innerProp) => innerProp.string.maxLength(3));
       });
 
       expect(errors.length).toBe(1);

@@ -1,6 +1,6 @@
 import { BasePropertyValidator } from './BasePropertyValidator';
-import { PropertyValidatorFactory } from './PropertyValidatorFactory';
-import { Infer, PropertyValidator, ValidationError } from './types';
+import { InnerValidator } from './InnerValidator';
+import { Infer, ValidationError } from './types';
 
 export type ArrayValidator<
   Key extends string,
@@ -81,7 +81,7 @@ export class ArrayPropertyValidator<
   }
 
   public forEach(
-    fn: (elem: PropertyValidator<PropKey, Infer<Value>, Context>) => void,
+    fn: (elem: InnerValidator<PropKey, Infer<Value>, Context>) => void,
     message?: string,
   ): ArrayPropertyValidator<PropKey, ElemType, Value, Context> {
     if (this.value === undefined || this.value === null) {
@@ -91,13 +91,12 @@ export class ArrayPropertyValidator<
 
     const errorList: ValidationError[] = [];
     this.value.forEach((val) => {
-      const propertyValidator = PropertyValidatorFactory.getPropertyValidator(
+      fn(InnerValidator.getValidator(
         this.prop,
         val as Infer<Value>,
         this.context,
         errorList,
-      );
-      fn(propertyValidator);
+      ));
     });
 
     if (errorList.length > 0) {

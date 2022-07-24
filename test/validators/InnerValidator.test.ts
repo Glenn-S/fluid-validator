@@ -1,22 +1,22 @@
 import {
   ArrayPropertyValidator,
   BooleanPropertyValidator,
+  InnerValidator,
   NumberPropertyValidator,
   ObjectPropertyValidator,
-  PropertyValidatorFactory,
   StringPropertyValidator,
 } from '../../src/validators';
 import { UnknownPropertyValidator } from '../../src/validators/UnknownPropertyValidator';
 
-describe('PropertyValidatorFactory', () => {
+describe('InnerValidator', () => {
   describe('getPropertyValidator', () => {
     it('string value should return the StringPropertyValidator', () => {
-      const result = PropertyValidatorFactory.getPropertyValidator(
+      const result = InnerValidator.getValidator(
         'prop',
         'test',
         {},
         [],
-      );
+      ).string;
 
       const actualInstance =
         result instanceof StringPropertyValidator<'prop', object>;
@@ -24,12 +24,12 @@ describe('PropertyValidatorFactory', () => {
     });
 
     it('number value should return the NumberPropertyValidator', () => {
-      const result = PropertyValidatorFactory.getPropertyValidator(
+      const result = InnerValidator.getValidator(
         'prop',
         12,
         {},
         [],
-      );
+      ).number;
 
       const actualInstance =
         result instanceof NumberPropertyValidator<'prop', object>;
@@ -37,12 +37,12 @@ describe('PropertyValidatorFactory', () => {
     });
 
     it('boolean value should return the BooleanPropertyValidator', () => {
-      const result = PropertyValidatorFactory.getPropertyValidator(
+      const result = InnerValidator.getValidator(
         'prop',
         false,
         {},
         [],
-      );
+      ).boolean;
 
       const actualInstance =
         result instanceof BooleanPropertyValidator<'prop', object>;
@@ -50,12 +50,12 @@ describe('PropertyValidatorFactory', () => {
     });
 
     it('object value should return the ObjectPropertyValidator', () => {
-      const result = PropertyValidatorFactory.getPropertyValidator(
+      const result = InnerValidator.getValidator(
         'prop',
         { innerProp: 'test' },
         {},
         [],
-      );
+      ).object;
 
       const actualInstance =
         result instanceof
@@ -64,12 +64,12 @@ describe('PropertyValidatorFactory', () => {
     });
 
     it('array value should return the ArrayPropertyValidator', () => {
-      const result = PropertyValidatorFactory.getPropertyValidator(
+      const result = InnerValidator.getValidator(
         'prop',
         ['test'],
         {},
         [],
-      );
+      ).array;
 
       const actualInstance =
         result instanceof
@@ -78,12 +78,12 @@ describe('PropertyValidatorFactory', () => {
     });
 
     it('unknown value should return the UnknownPropertyValidator', () => {
-      const result = PropertyValidatorFactory.getPropertyValidator(
+      const result = InnerValidator.getValidator(
         'prop',
         Symbol('test'),
         {},
         [],
-      );
+      ).unknown;
 
       const actualInstance =
         result instanceof UnknownPropertyValidator<'prop', unknown, object>;
